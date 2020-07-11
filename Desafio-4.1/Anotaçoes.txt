@@ -1,0 +1,24 @@
+1. Arquivos fundamentais, Views, public, server.js, package.json
+	.de o comando "npm install"
+
+2. Criar arquivo rotas.js para redefinir rotas
+	.criar --> const express = require('express')
+	.criar --> const routes = express.Router()
+	.criar --> "module.exports = routes" neste arquivo
+
+3. Fazer o chamado do rotas.js no serve.js
+	.const routes = require('./rotas')
+	.server.use(routes)
+
+4. No diretorio Views deixar apenas o layout.njk
+	.Reestrutura o html do layout
+	.redefina as rotas em rotas.js
+
+	         	
+	Comando de rota-> 	  routes.get('/', function(req, res){
+		  		  return res.redirect('/instructors')
+				})
+
+5. crie animação com ::after
+
+	------------------------- Desafio 4.1 Criando o Lapix--------------------- 
