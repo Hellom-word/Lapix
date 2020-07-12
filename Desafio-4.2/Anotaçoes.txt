@@ -1,0 +1,88 @@
+1. Arquivos fundamentais, Views, public, server.js, package.json
+	.de o comando "npm install"
+
+2. Criar arquivo rotas.js para redefinir rotas
+	.criar --> const express = require('express')
+	.criar --> const routes = express.Router()
+	.criar --> "module.exports = routes" neste arquivo
+
+3. Fazer o chamado do rotas.js no serve.js
+	.const routes = require('./rotas')
+	.server.use(routes)
+
+4. No diretorio Views deixar apenas o layout.njk
+	.Reestrutura o html do layout
+	.redefina as rotas em rotas.js
+
+	         	
+	Comando de rota-> 	  routes.get('/', function(req, res){
+		  		  return res.redirect('/instructors')
+				})
+
+5. crie animação com ::after
+
+	------------------------- Desafio 4.1 Criando o Lapix--------------------- 
+
+				*-*-*-*-Recaregando pagina automaticamente com browsersync-*-*-*-*
+1. Instalar dependencias para reload automatico da pagina enquanto estamos desenvolvendo os arquivos dinamicos
+	.npm install browser-sync npm-run-all -D
+	. Mudar no package.json em scripts:				
+		."start": "npm-run-all -p nodemon browsersync"
+		."nodemon": "nodemon server.js"
+		."browsersync": "browser-sync start --proxy http://localhost:5000 --files 'public,views'"
+
+				*-*-*-*-Criando container de conteudo-*-*-*-*
+2. Criar uma div com duas sessões, uma para imagem e outra apara detalhes dos instrutores
+	.Na pagina index dos instrutores crie uma div.card (bg-white, wd-800px, hg-400px, M-45px-Auto)
+	.dentro da div.card crie uma section.avatar e um section.details
+
+				*-*-*-*-Trabalhando com background-image no CSS-*-*-*-*
+3. Na tag sectin.avatar adicione:
+	style:"background: url(https://source.unsplash.com/collection/3465564/500x500) no-repeat center center / cover; 
+	.No css.card faz um diplay:grid , grid-tamplate-colims: 1fr 1fr;
+
+				*-*-*-*-Conhecendo o CSS box Shadow-*-*-*-*
+4. Adicione o atributo box-Shadow no css.card
+	. (box-shadow: eixo-x eixo-y borrar espalhar color) valores em px
+
+				*-*-*-*-Animando com CSS-*-*-*-*
+5. 	Acrescente no css.card o atributo animation: up 200ms ease-out
+		. Para a animação funcionar é preciso utilizar após o css.card
+			@keyframes up {
+				from{
+					opacity: 0
+					transform: translateY(15px)
+				}
+				to{
+					opacity:1
+				}
+			}
+
+				*-*-*-*-Estruturando e estilizando dados do instrutor-*-*-*-*
+6. Utilizaremos funcões de CSS ineditas até aqui, para isso:
+	.Dentro da section details crie uma tag <h3> de conteudo >Detalhes<
+	.Crie uma div.item e dentro dela coloca mais duas div's de conteudo:
+		>Instrutor<
+		>Guilherme Saraiva<
+	.Copie a div.item e crie mais div's seguintes com o conteudo:
+		>idade<	|   >sexo<	   | >acompanhamento< | >Cadastrado<
+		>29<	| >Masculino<  | span>Musculação< | >01.01.2019<
+							   | span>Crossfit<	  |
+	.Crie o CSS.details com {padding: 32px}
+	.Crie o CSS details .item {boder-bottom 1px solid rgba(0,0,0,0.1); padding: 16px 0;  }
+		.Adicione o min-heigth no CSS.card para a pagina não quebrar
+	.Tirar a linha do ultima elemento 
+		.Crie um CSS.details .item:last-child { boder: none}
+	.Estilizando a primeira div dentro da class item
+		.Crie um CSS. details .item div:nth-child(1){font-size 14px; line-heigth: 24px; 
+													color: #777; letter-spacing: 0.7px; font-weight: normal}
+			.Crie o CSS.details h3, (para pegar as funcionalidades da primeira div)
+	.Estilizando a segunda div dentro da class item
+		.Crie um CSS. details .item div:nth-child(2){color: #555; font-weight: bold; font-size: 18px}
+	.Crie o CSS.details h3{ text-transform: uppercase; font-weight: bold; color: primary-color}
+
+					*-*-*-*-Estilizando labels-*-*-*-*
+	.Crie um CSS.details .item span {padding: 8px 16px; background-color: F7DF1E(crie um secundary-color);
+									border-radius: 16px; color: #777; margin-right: 4px; margin-top: 8px;
+									display: inline-block; font-weight: bold; text-transform: uppercase;
+									font-size: 12px}
