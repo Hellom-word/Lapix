@@ -21,6 +21,8 @@
 
 5. crie animação com ::after
 
+____________________________________________________________________________________________________________________________
+
 	------------------------- Desafio 4.1 Criando o Lapix--------------------- 
 
 				*-*-*-*-Recaregando pagina automaticamente com browsersync-*-*-*-*
@@ -86,3 +88,26 @@
 									border-radius: 16px; color: #777; margin-right: 4px; margin-top: 8px;
 									display: inline-block; font-weight: bold; text-transform: uppercase;
 									font-size: 12px}
+
+____________________________________________________________________________________________________________________________-____________-
+
+					*-*-*-*-Trabalhando com formularios HTML-*-*-*-*
+	
+	.Crie uma pagina de nome create.njk na pasta instructors
+		.copie o conteudo do index.njk
+	.No rotas.js crie uma rota:
+		routes.get('/instructors/create', function(req, res){ return res.render('instructors/create')})
+	.Em create.njk subistitua a nome 'div' da div principal por 'form'
+		.Coloque nesse form os atributos:
+			method="POST"  				//enviar dados
+			action="/instructors"		//Para onde vai ser enviado os dados
+			.Na rotas.js crie a linha:
+				routes.post("/instructors" function(req, res){ return res.send('instrutores')})
+	.Nas div.item mudar o conteudo da segunda div por Inputs
+		.(type="txt" name="name") ([criar nova sessão Avatar URL]type="url" name="ava") (type="date" name="birth")
+		.([Conteude de uma tag <span> dento de input]type="radio" name="gender" value="M" checked >Masculino<)
+			.Faz a copia e coloca em baixo mudando o value="F" e o conteudo para >Feminino< 
+		.[Trocar o >Acompanhamento< por >area de atuação<](type="txt" name="services")
+		.Tirar as div's do "Cadastrado desde:"
+		.Criar um <button>Salvar< (type="submit")
+		.Adicionar placeholder="http://", "Nome do Instrutor", "Digite os serviços"
