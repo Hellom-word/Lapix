@@ -102,9 +102,20 @@ ________________________________________________________________________________
 			method="POST"  				//enviar dados
 			action="/instructors"		//Para onde vai ser enviado os dados
 			.Na rotas.js crie a linha:
-				routes.post("/instructors" function(req, res){ return res.send('instrutores')})
+				routes.post("/instructors" function(req, res){ return res.send('recebido')})
 	.Nas div.item mudar o conteudo da segunda div por Inputs
 		.(type="txt" name="name") ([criar nova sessão Avatar URL]type="url" name="ava") (type="date" name="birth")
 		.([Conteude de uma tag <span> dento de input]type="radio" name="gender" value="M" checked >Masculino<)
 			.Faz a copia e coloca em baixo mudando o value="F" e o conteudo para >Feminino< 
 		.[Trocar o >Acompanhamento< por >area de atuação<](type="txt" name="services")
+		.Tirar as div's do "Cadastrado desde:"
+		.Criar um <button>Salvar< (type="submit")
+		.Adicionar placeholder="http://", "Nome do Instrutor", "Digite os serviços"
+
+					*-*-*-*-Estilizando formularios-*-*-*-*
+
+	.Abrir style.css e crier uma parte para o /*FORM*/ 
+		.Crie Input.css{ width:100%; outline:none (acrescentar os estilos do .details .item div:nth-child(1) )}
+		.Crie input.css[type="radio"]{ width:initial; margin-right: 4px}
+		.Crie um input.css::placeholder{ font-size: 16px, font-weight: normal}
+		.Crie um button[type="submit"]{ padding: 8px 32px; background: var-secundary-color; color: white; border-radius: 4px; margin-top: 32px; width:100%; font-size: 16px}
