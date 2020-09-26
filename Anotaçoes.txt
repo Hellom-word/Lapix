@@ -205,4 +205,46 @@ ________________________________________________________________________________
 				 
 				 
 				 				 
-				 *-*-*-*- Criando datas no javascript -*-*-*-*
+				 *-*-*-*- Estruturando dados de instrutores -*-*-*-*
+
+		.Acrescentar a chave id (que será necessario para buscar os valores para edição.
+		Cada "id" tem um valor unico) nos arrays de instructors no arquivo instructors.js:
+
+			.Abaixo do "req.body.created_at", coloque:
+
+				."req.body.id = Number(data.instructors.length + 1)"
+
+		.Desestruturando o req.body (A ideia é tornar o conteudo do req.body mais visual
+		com a finalidade de controlar todos os dados que é recebido):
+
+			.Abaixo do "req.body.id = Number(data.instructors.length + 1)", coloque:
+
+				."const {avatar_url, birth, created_at, id, name, services, gender} = req.body"
+
+			.Agora que o "req.body foi Desestruturado, é preciso abrir o req.body de dentro do .push:
+
+				.No "data.instructors.push({req.body})", mude o conteudo para:
+
+					."data.instructors.push({
+						id,
+						avatar_url,
+						name,
+						birth,
+						gender,
+						services,
+						created_at
+					})
+			.Para melhorar, passe o "const {avatar_url, birth, created_at, id, name, services, gender} = req.body"
+			para baixo da validação "For key"
+			 	
+				 .Mude de CONST para LET.
+				 .Retire o created_at (pois ele nao vem no req.body)
+
+				.Dessa forma podemos modificar as linhas de data e de ID retirando o req.body
+					
+					exemplo:
+						req.body.birth = Date.parse(req.body.birth)
+						 to
+						birth = Date.parse(req.body.birth)
+
+					.Acrescentando CONST antes de "created_at = Date.now" e de "id = Number(data.instructors.length + 1)

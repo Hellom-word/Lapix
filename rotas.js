@@ -11,4 +11,7 @@ routes.get('/',  function(req, res){
     return res.render()
 })
 
+routes.get('/professores/create', function(req, res){
+     return res.render('professores/create')})
+
 module.exports = routes
