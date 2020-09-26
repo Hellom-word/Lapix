@@ -91,6 +91,9 @@ ________________________________________________________________________________
 
 ____________________________________________________________________________________________________________________________-____________-
 
+				
+				
+				
 					*-*-*-*-Trabalhando com formularios HTML-*-*-*-*
 	
 	.Crie uma pagina de nome create.njk na pasta instructors
@@ -98,20 +101,23 @@ ________________________________________________________________________________
 	.No rotas.js crie uma rota:
 		routes.get('/instructors/create', function(req, res){ return res.render('instructors/create')})
 	.Em create.njk subistitua a nome 'div' da div principal por 'form'
-		.Coloque nesse form os atributos:
+		.Coloque nesse form,mantendo a class="card", os atributos:
 			method="POST"  				//enviar dados
 			action="/instructors"		//Para onde vai ser enviado os dados
 			.Na rotas.js crie a linha:
 				routes.post("/instructors" function(req, res){ return res.send('recebido')})
 	.Nas div.item mudar o conteudo da segunda div por Inputs
-		.(type="txt" name="name") ([criar nova sessão Avatar URL]type="url" name="ava") (type="date" name="birth")
-		.([Conteude de uma tag <span> dento de input]type="radio" name="gender" value="M" checked >Masculino<)
+		.(type="txt" name="name") ([criar nova sessão Avatar URL]type="url" name="avatar_url") (type="date" name="birth")];
+		.([Conteudo de uma tag <span> dento de input]type="radio" name="gender" value="M" checked >Masculino<)
 			.Faz a copia e coloca em baixo mudando o value="F" e o conteudo para >Feminino< 
 		.[Trocar o >Acompanhamento< por >area de atuação<](type="txt" name="services")
-		.Tirar as div's do "Cadastrado desde:"
+		.Tirar as div's do "Cadastrado desde:" 
 		.Criar um <button>Salvar< (type="submit")
 		.Adicionar placeholder="http://", "Nome do Instrutor", "Digite os serviços"
 
+				
+				
+				
 					*-*-*-*-Estilizando formularios-*-*-*-*
 
 	.Abrir style.css e crier uma parte para o /*FORM*/ 
@@ -120,10 +126,13 @@ ________________________________________________________________________________
 		.Crie um input.css::placeholder{ font-size: 16px, font-weight: normal}
 		.Crie um button[type="submit"]{ padding: 8px 32px; background: var-secundary-color; color: white; border-radius: 4px; margin-top: 32px; width:100%; font-size: 16px}
 
+				
+				
+				
 					*-*-*-*-Recebendo dados do front-end com req.body-*-*-*-*
 	
-	.No arquivo rotas.js mude o return do routes.post para return res.send(req.body) //Comando para pegar informação quando fot comando POST
-	.Crie no server.js o use que vai fazer o .body funcionar:
+	.No arquivo rotas.js mude o return do routes.post para return res.send(req.body) //Comando para pegar informação quando for comando POST
+	.Crie no server.js o use que vai fazer o req.body funcionar:
 		server.use(express.urlencoded({extended: true}))
 
 					*-*-*-*-Validando dados no back-end -*-*-*-*
@@ -137,6 +146,9 @@ ________________________________________________________________________________
 				}
 			}
 
+				
+				
+				
 					*-*-*-*- Separando as funções das rotas -*-*-*-*
 		
 		.Crie um arquivo chamado instructors.js //Vai servir para tirar function das rotas e exportar depois
@@ -151,8 +163,46 @@ ________________________________________________________________________________
 		.No arquivo instructors.js fora das abas comentadas escreva:
 			.const fs = require('fs')
 			.Após o comando FOR no //creat escreva:
-				.fs.writeFile("data.json", JSON.stringify(req,body), function(err){
+				.fs.writeFile("data.json", JSON.stringify(data, null, 2), function(err){
 					if (err) return res.send("Write file error!")
 
 					return res.redirect("instructors")
-				})
+				}
+
+				
+				
+				
+				*-*-*-*- Trabalhando com dados em JSON -*-*-*-*
+
+		.No arquivo instructors.js comente a linha 26 "return res.redirect"
+
+		.Neste momento arquivo data.json salva apenas uma informação de cada vez,
+		para resolver isso:
+
+			.No arquivo instructors.js fora das abas comentadas, escreva:
+
+				."const data = require("data.json")
+				.abaixo do comando for escreva:
+					"data.instructors.push(req.body)
+				.Apague tudo que estiver dentro do arquivo data.json e escreva:
+					{
+						"instructors": []
+					}
+				
+				
+				
+					*-*-*-*- Criando datas no javascript -*-*-*-*
+
+		.Para inserir a informação da data de criação do perfil no arquivo data.json:
+					
+			.No arquivo instructors.js, na linha acima do "data.instructors.push", escreva:
+
+				.req.body.birth = Date.parse(req.body.bith) <- isso vai transformar o formato da data
+					para formato em milesegundos ->
+				."req.body.created_at = Date.now()" <-- isso vai fazer criar uma data atual no formato milesegundos -->
+
+				 
+				 
+				 
+				 				 
+				 *-*-*-*- Criando datas no javascript -*-*-*-*
