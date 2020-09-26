@@ -119,3 +119,40 @@ ________________________________________________________________________________
 		.Crie input.css[type="radio"]{ width:initial; margin-right: 4px}
 		.Crie um input.css::placeholder{ font-size: 16px, font-weight: normal}
 		.Crie um button[type="submit"]{ padding: 8px 32px; background: var-secundary-color; color: white; border-radius: 4px; margin-top: 32px; width:100%; font-size: 16px}
+
+					*-*-*-*-Recebendo dados do front-end com req.body-*-*-*-*
+	
+	.No arquivo rotas.js mude o return do routes.post para return res.send(req.body) //Comando para pegar informação quando fot comando POST
+	.Crie no server.js o use que vai fazer o .body funcionar:
+		server.use(express.urlencoded({extended: true}))
+
+					*-*-*-*-Validando dados no back-end -*-*-*-*
+
+	. Adicione um comando de validação no routes.post no return em rotas.js:
+		.Crie -> const keys = Object.keys(req.body) //transforma as chaves dos input em objeto
+		.Em baixo da linha const keys:
+			.for(key of keys) {
+				if (req.body[key] == ""){
+					return res.send('Please, fill all fields!')
+				}
+			}
+
+					*-*-*-*- Separando as funções das rotas -*-*-*-*
+		
+		.Crie um arquivo chamado instructors.js //Vai servir para tirar function das rotas e exportar depois
+			.Dentro de instructors.js escreva //Creat //Update //Delete
+			.No //Create escreva exports.post = (Colocar function do routes.post)
+		.No arquivo routes.js chame o arquivo instructors:
+			.const instructors = require('./instructors')
+			.No routes.post coloque no lugar da function que saiu -> instructors.post 
+
+					*-*-*-*- Usando Node fs e entendendo callback function -*-*-*-*
+		
+		.No arquivo instructors.js fora das abas comentadas escreva:
+			.const fs = require('fs')
+			.Após o comando FOR no //creat escreva:
+				.fs.writeFile("data.json", JSON.stringify(req,body), function(err){
+					if (err) return res.send("Write file error!")
+
+					return res.redirect("instructors")
+				})
