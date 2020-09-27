@@ -1,40 +1,43 @@
 {% extends "layout.njk" %}
 
 {% block content %}
-    <form class="card" Method="POST" action="professores" >
+    <form class="card" method="POST" action="/professores" >
         <section class="avatar" style= "background: url(https://source.unsplash.com/collection/8874679/500x500) no-repeat center center / cover;">
 
         </section>
         <section class="details">
-            <h3>Detalhes</h3>
+            <h3>Novo Professor</h3>
             <div class="item">
-                <div>Professor</div>
-                <div>Rebecca Trincheiras</div>
+                <div>Foto de Perfil</div>
+                <input type="url" name="avatar_url" placeholder="http//" />
             </div>
             <div class="item">
-                <div>Idade</div>
-                <div>29</div>
+                <div>Nome</div>
+                <input type="txt" name="name" placeholder="Nome do professor" />
+            </div>
+            <div class="item">
+                <div>Data de Nascimento</div>
+                <input type="date" name="birth" />
             </div>
             <div class="item">
                 <div>Grau de Escolaridade</div>
-                <div>Doutorado</div>
+                <select name="escolaridade">
+                    <option value="EMC" >Ensino Médio Completo</option>
+                    <option value="ESC" >Ensino Superior Completo</option>
+                    <option value="MES" >Mestrado</option>
+                    <option value="Dr" >Doutorado</option>
+                </select>
             </div>
             <div class="item">
                 <div>Tipo de Aula</div>
-                <div>Online</div>
+                <span><input type="radio" value="present" name="tipo_aula"/>Presencial</span>
+                <span><input type="radio" value="conference" name="tipo_aula" checked />À distância</span>
             </div>
             <div class="item">
-                <div>Acompanhamento</div>
-                <div>
-                    <span>Matemática</span>
-                    <span>Física</span>
-                    <span>Química</span>
-                </div>
+                <div>Área de atuação</div>
+                <input type="text" name="atuacao" placeholder="Física, Química, Biologia"/>
             </div>
-            <div class="item">
-                <div>Cadastrado em:</div>
-                <div>01/01/2019</div>
-            </div>
+            <button type="submit">Salvar</button>
         </section>
     </form>
 {% endblock content %}

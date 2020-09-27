@@ -1,5 +1,6 @@
 const express = require('express')
 const routes = express.Router()
+const professores = require('./professores')
 
 routes.get('/',  function(req, res){
     return res.render('professores/index')
@@ -12,6 +13,11 @@ routes.get('/',  function(req, res){
 })
 
 routes.get('/professores/create', function(req, res){
-     return res.render('professores/create')})
+    return res.render('professores/create')
+})
+
+routes.post("/professores", professores.post )
+
+
 
 module.exports = routes

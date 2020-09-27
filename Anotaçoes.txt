@@ -197,7 +197,7 @@ ________________________________________________________________________________
 					
 			.No arquivo instructors.js, na linha acima do "data.instructors.push", escreva:
 
-				.req.body.birth = Date.parse(req.body.bith) <- isso vai transformar o formato da data
+				.req.body.birth = Date.parse(req.body.birth) <- isso vai transformar o formato da data
 					para formato em milesegundos ->
 				."req.body.created_at = Date.now()" <-- isso vai fazer criar uma data atual no formato milesegundos -->
 

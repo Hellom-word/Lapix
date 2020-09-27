@@ -1,0 +1,14 @@
+{
+  "professores": [
+    {
+      "id": 1,
+      "avatar_url": "http://google.com",
+      "name": "asdas",
+      "birth": null,
+      "escolaridade": "EMC",
+      "tipo_aula": "conference",
+      "atuacao": "adasda",
+      "created_at": 1601241257266
+    }
+  ]
+}
