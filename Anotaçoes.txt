@@ -246,5 +246,5 @@ ________________________________________________________________________________
 						req.body.birth = Date.parse(req.body.birth)
 						 to
 						birth = Date.parse(req.body.birth)
-
+ 
 					.Acrescentando CONST antes de "created_at = Date.now" e de "id = Number(data.instructors.length + 1)
