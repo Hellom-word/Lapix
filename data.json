@@ -2,12 +2,12 @@
   "professores": [
     {
       "id": 1,
-      "avatar_url": "http://google.com",
+      "avatar_url": "https://conteudo.imguol.com.br/c/entretenimento/12/2020/02/08/as-estatuetas-do-oscar-prontas-para-serem-entregues-aos-vencedores-1581204604780_v2_1920x1280.jpg",
       "name": "asdas",
-      "birth": null,
-      "escolaridade": "EMC",
-      "tipo_aula": "conference",
-      "atuacao": "adasda",
+      "birth": 1601241257266,
+      "escolaridade": "MES",
+      "tipo_aula": "À distância",
+      "atuacao": "adasda, pudim, de leite ninho",
       "created_at": 1601241257266
     }
   ]

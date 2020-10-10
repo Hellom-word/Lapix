@@ -1,3 +1,6 @@
+Parado na linha
+
+
 1. Arquivos fundamentais, Views, public, server.js, package.json
 	.de o comando "npm install"
 
@@ -23,7 +26,7 @@
 
 ____________________________________________________________________________________________________________________________
 
-	------------------------- Desafio 4.1 Criando o Lapix--------------------- 
+	------------------------- Desafio 4.2 --------------------- 
 
 				*-*-*-*-Recaregando pagina automaticamente com browsersync-*-*-*-*
 1. Instalar dependencias para reload automatico da pagina enquanto estamos desenvolvendo os arquivos dinamicos
@@ -90,7 +93,7 @@ ________________________________________________________________________________
 									font-size: 12px}
 
 ____________________________________________________________________________________________________________________________-____________-
-
+									DESAFIO 4.3
 				
 				
 				
@@ -158,6 +161,8 @@ ________________________________________________________________________________
 			.const instructors = require('./instructors')
 			.No routes.post coloque no lugar da function que saiu -> instructors.post 
 
+			
+			
 					*-*-*-*- Usando Node fs e entendendo callback function -*-*-*-*
 		
 		.No arquivo instructors.js fora das abas comentadas escreva:
@@ -181,7 +186,7 @@ ________________________________________________________________________________
 
 			.No arquivo instructors.js fora das abas comentadas, escreva:
 
-				."const data = require("data.json")
+				."const data = require("./data.json")
 				.abaixo do comando for escreva:
 					"data.instructors.push(req.body)
 				.Apague tudo que estiver dentro do arquivo data.json e escreva:
@@ -246,5 +251,394 @@ ________________________________________________________________________________
 						req.body.birth = Date.parse(req.body.birth)
 						 to
 						birth = Date.parse(req.body.birth)
- 
+
 					.Acrescentando CONST antes de "created_at = Date.now" e de "id = Number(data.instructors.length + 1)
+
+____________________________________________________________________________________________________________________________-____________-
+										DESAFIO 4.4
+
+
+
+		 
+		                       *-*-*-*- Buscando instructor com parametros da rota -*-*-*-*
+
+
+	.pegar os dados do backend para o front
+
+			.No artivo rotas.js debaixo da rota get.create crie a rota:
+				
+				."routes.get('instructors/:id)
+
+			.No arquivo instructors.js em baixo da data.require crie o exports, com o comentario "//show" em cima:
+
+				."exports.show = function(req, res){
+					const { id } = req.params         ------> requisitando o id e fazendo que ele seja uma variavel
+
+					const foundInstructor = data.instructors.find(function(instructor){
+						return id == instructor.id										--->Encontrar o instrutor dentro do Data.json
+					})																		e retornar quando o id for igual ao requisitado
+
+					if (!foundInstructor) return res.send("instructor not found!")     ---> msg caso não encontre nenhum instrutor com o
+																							id requisitado.
+
+					return res.send(foundInstructor)                                    ----> vai retornar isso caso encontre o id correspondente
+				
+				
+			}																			
+
+			.No artivo rotas.js em "routes.get('instructors/:id)" acrescente:
+				
+				routes.get('instructors/:id, instructors.show)
+			
+			
+				TESTAR 
+	
+
+
+
+									*-*-*-*- Estruturando a visualização de um instrutor -*-*-*-*
+
+
+			.No diretorio instructors criar um novo arquivo.njk de nome show.njk
+			.copie e cole o conteudo do index.njk
+			.No arquivo instructors.js mude:
+				 "return res.send(foundInstructor)" para "return res.render("instructors/show", {instructor: foundInstructor})
+
+			.No arquivo show.njk mude:
+
+				style= "background: url(https://source.unsplash.com/collection/3465564/500x500)
+				    Para
+				style= "background: url({{instructor.avatar_url}})
+
+				<div>Guilherme Saraiva</div>
+					para
+				<div>{{instructor.name}}</div>
+
+				<div>29</div>
+					para
+				<div>{{instructor.birth}}</div>
+
+				<div>Masculino</div>
+					para
+				<div>{{instructor.gender}}</div>
+
+				.Em acompanhamento fazer um comando for para listar os serviços por ordem, então Mude:
+
+					<div>
+						<span>Musculação</span>
+						<span>Crossfit</span>
+					</div>
+						
+						Para
+
+					<div>
+						{% for service in services %}
+						<span> {{service}} </span>
+						{% endfor %}
+					</div>
+				
+				
+				
+				
+				<div>01/01/2019</div>
+					Para
+				<div>{{instructor.created_at}}</div>
+
+				TESTAR (vai aparecer o nome, a idade e a data de cadastro em formato milisegundos e o acompanhamento não vai aparecer e está tudo bem)
+
+				
+
+
+
+
+						*-*-*-*- Conhecendo o Spread Operator do javascript -*-*-*-*
+
+
+		.No arquivo instructors.js em baixo do if (!foundInstructor) escreva:
+
+			." const instructor = {
+				...foundInstructor //funcionalidade para espalhar a conteudo que não será modificado
+				age:"",
+				gender:"",
+				services:"",
+				created_at:""
+			}"
+
+		.Mude a linha:
+			"return res.send(foundInstructor)" para "return res.render("instructors/show, {instructor: foundInstructor}")
+					Para
+			"return res.send(foundInstructor)" para "return res.render("instructors/show, {instructor}")
+					
+			//Isso vai fazer enviar o array reconfigurado
+
+		TESTAR (Perceba que os novos valores que estão vazio no array não aparecem no front, exceto aqueles que foram trazidos pelo
+						"...foundInstructor)
+				
+		.No html do show.njk mude a linha "{{instructor.birth}}" para {{instructor.age}}"
+
+
+		
+		
+					*-*-*-*- Ajustando sexo e serviços do instrutor -*-*-*-*
+
+		
+		.Para transformar o Serviços em array para ele poder chegar ao front, no arquivo instructors.js acrescente na variavel const instructor:
+
+			em services:
+				"services: foundInstructor.services.split(",")   //Isso indica que ele vai transformar a string em array quebrando sempre
+																   aonde é indicado entre parenteses, no caso, na virgula.
+
+		.No arquivo show.njk mude o {% for service in services %} para {% for service in instructor.services%}
+
+		TESTAR
+
+		.No arquivo show.njk, para mostrar o sexo correto mude:
+
+			<div>{{"Masculino" if instructor.gender == "M" else "Feminino"}}</div>
+
+
+				*-*-*-*- Criando Lógica para Calcular idade -*-*-*-*
+
+		function age(timestamp){
+			const today = new Date()
+			const birthDate = new Date(timestamp)
+	
+			//2019 - 1984 = 35
+			let age	= today.getFullYear() - birthDate.getFullYear()
+			const month = today.getMonth() - birthDate.getMonth()
+
+			if (month < 0 || month == 0 && today.getDate() < birthDate.getDate()){
+				age = age - 1
+			}
+			return age
+		}
+
+
+
+				*-*-*-*- utilizando Lógica de idade -*-*-*-*
+
+		.Crie um arquivo.js chamado utils.js e escreva dentro:
+
+			module.exports = {
+				age: "função da idade"
+			}		
+
+		.No Arquivo instructors.js dentro da "const instructor" escreva a linha age assim: "age: age(foundInstructor.birth),"
+		.Ainda no instructors.js abaixo do "const data" escreva: "const {age} = require('./utils.js')
+
+
+
+		
+					*-*-*-*- Formatando data com intl do javascript -*-*-*-*
+
+		.No arquivo instructors.js na variavel "const instructor" o created_at fica assim:
+
+			"created_at: new Intl.DateTimeFormat,("pt-BR").format(foundInstructor.created_at),"
+			//Utilização do constructor Intl para formatação da Data
+
+
+
+					*-*-*-*- Finalizando pagina de apresendação do instrutor -*-*-*-*
+
+		.No arquivo Data.json, escolha qualquer um dos usuarios para colocar uma imagem no avatar_url
+
+		TESTAR com instrutores/id
+
+		.No arquivo show.njk, em cima do fechamento da tag </section>, escreva:
+
+			<a href="#" class="button">Editar</a>
+
+		.No arquivo style.css aproveita a estilização do button para estilizar o link editar para se tornar um botão:
+
+			button[type="submit"],
+			a.button{ 
+			padding: 8px 32px;
+			background: var(--rocketseat-color) ; 
+			color: white; 
+			border-radius: 4px; 
+			margin-top: 32px; 
+			width:100%; 
+			font-size: 16px
+			}
+
+			e tambem coloque uma estilização só pra ele em baixo:
+
+			a.button{
+				display:block;
+				box-sizing: border-box;
+				text-align: center;
+				text-decoration: none;
+			}
+
+
+
+				*-*-*-*- Reuso de código com include do nunjucks -*-*-*-*
+
+
+			.No diretorio instrutores crie outro aquivo chamado edit.njk
+				.copie todo o conteudo do create.njk e cole no edit.njk
+
+			.No arquivo routes, em baixo da linha ".get('/instructors/:id')", crie a linha:
+
+				routes.get("/instructors/:id/edit", function(req, res){
+					return res.render('instructors/edit')
+				})
+
+			.No arquivo edit.njk mude <h3>Novo Instrutor</h3> para <h3>Editar Instrutor</h3>
+	
+			.Abaixo da tag <h3>Editar Instrutor</h3>, crie a linha:
+
+					{% include 'instructors/fields.njk' %}
+
+			.Ainda no edit.njk recorte da primeira div classe="item" até o botão salvar
+			.No diretorio instrutores crie outro arquivo chamado fields.njk e dentro cole o codigo recortado
+
+			.No arquivo create.njk todas as divs class="item"(formularios) e o botão,
+				e no lugar escreva a linha: {% include 'instructors/fields.njk' %}
+
+
+
+				*-*-*-*- preenchendo campos do formulario com Nunjucks -*-*-*-*
+
+	.No arquivo rotas.js tire recorte a função do "get.instructors/:id/edit" e deixe assim:
+
+		"routes.get('instructors/:id/edit', instructors.edit)
+
+	.no arquivo instructors.js em baixo do exports //create escreva:
+
+		//edit
+		exports.edit = function(req, res) {
+			const { id } = req.params         ------> requisitando o id e fazendo que ele seja uma variavel
+
+			const foundInstructor = data.instructors.find(function(instructor) {
+				return id == instructor.id										--->Encontrar o instrutor dentro do Data.json
+			})																		e retornar quando o id for igual ao requisitado
+
+			if (!foundInstructor) return res.send("instructor not found!")     ---> msg caso não encontre nenhum instrutor com o
+																							id requisitado.
+			return res.render('instructors/edit', { instructor: foundInstructor })
+		}
+
+	.No arquivo fields.njk acrescente os valores dentro dos inputs, assim
+
+		value="{{instructor.avatar_url}}
+
+		value="{{instructor.name}}
+
+		value="{{instructor.birth}}
+
+		.Nos imputs de sexo coloque como tag a logica:
+
+			{% if instructor.gender == 'M' %}
+				checked
+			{% endif %}
+			
+			//para o feminino mude de 'M' para 'F'
+
+		value="{{instructor.services}}
+
+
+
+		
+				*-*-*-*- Fazendo ajustes de data -*-*-*-*
+	
+	.Dentro do arquivo utils.js dentro do module.exports e depois da função age escreva a função date, assim:
+
+		module.exports = {
+			age: function(timestamp){
+				//CODIGO DA FUNÇÂO AGE
+			},
+			date: function(timestamp){
+				const date = new Date(timestamp)
+
+				//yyyy
+				const year = date.getFullYear()
+
+				//mm 
+				const month = date.getMonth() + 1
+
+				//dd 
+				const day = date.getDate()
+
+				//return yyyy-mm-dd
+				console.log(`${year}-${month}-${day}`)
+			}
+		}
+
+	.No arquivo instructors.js no const age = require acrescente o date, assim fica a linha:
+
+		const { age, date } = require('./utils')
+	
+	.Ainda no instructors.js no exports.edit na linha depois da linha
+			"if (!foundInstructor) return res.send("instructor not found!")"
+		escreva:
+
+				date(foundInstructor.birth)
+
+		TESTAR
+
+		*-*-*-*- Configurando datas universais -*-*-*-*
+
+	.No arquivo utils.js mude: 
+	
+		(Isso serve para fazer o computar entender como tempo universal e nao local)
+
+		const year = date.getFullYear()
+		const month = date.getMonth() + 1
+		const day = date.getDate()
+
+					para
+		
+		const year = date.getUTCFullYear()
+		const month = date.getUTCMonth() + 1
+		const day = date.getUTCDate()
+		
+		.mude:
+
+			console.log(`${year}-${month}-${day}`)
+
+				para
+			
+			return `${year}-${month}-${day}`
+
+	.No arquivo instructors.js no module.exports date, 
+
+		.exclua a linha "date(foundInstructor.birth)"
+		
+		no lugar escreva:
+
+			const instructor = {
+				...foundInstructor,
+				birth: date(foundInstructor.birth)
+			}
+
+			return res.render('instructors/edit', { instructor})
+		
+		//Ainda não vai funcionar pois a data esta com formato 2000-2-1
+		e precisamos de um formato 2000-02-01 para funcionar
+
+
+		
+		
+				
+				*-*-*-*- Formatando datas para o formulario -*-*-*-*
+
+	.No arquivo utils.js mude: 
+	
+		//O `0${}` serve para acrescentar o digito "0" para podermos apresentar
+		caso o valor do mes e do dia seja de apenas um digito
+		
+		//O ".slice(-2)" serve para pegar apenas os ultimos dois valores da string 
+		pois, caso o mes e o dia seja de valores de dois digitos a string terá 3 digitos
+		e nesse caso nao funcionaria porque precisamos de apenas dois.
+
+		const year = date.getUTCFullYear()
+		const month = date.getUTCMonth() + 1
+		const day = date.getUTCDate()
+
+					para
+		
+		const year = date.getUTCFullYear()
+		const month = `0${date.getUTCMonth() + 1}`.slice(-2)
+		const day = `0${date.getUTCDate()}`.slice(-2)
+

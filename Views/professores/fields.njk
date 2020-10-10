@@ -1,0 +1,103 @@
+<div class="item">
+                <div>Foto de Perfil</div>
+                <input 
+                    type="url" 
+                    name="avatar_url" 
+                    placeholder="http//" 
+                    value="{{professor.avatar_url}}"
+                />
+            </div>
+            <div class="item">
+                <div>Nome</div>
+                <input 
+                    type="txt" 
+                    name="name" 
+                    placeholder="Nome do professor" 
+                    value="{{professor.name}}"
+                />
+            </div>
+            <div class="item">
+                <div>Data de Nascimento</div>
+                <input 
+                    type="date" 
+                    name="birth" 
+                    value="{{professor.birth}}"
+                />
+            </div>
+            <div class="item">
+                <div>Grau de Escolaridade</div>
+                <select name="escolaridade">
+                    
+                    <option 
+                        value="EMC" 
+                        {% if professor.escolaridade == EMC %}
+                            selected
+                        {% endif %}
+                    >
+                    Ensino Médio Completo
+                    </option>
+                    
+                    <option 
+                        value="ESC" 
+                        {% if professor.escolaridade == "ESC" %}
+                            selected
+                        {% endif %}
+                    >
+                    Ensino Superior Completo
+                    </option>
+                    
+                    <option 
+                        value="MES" 
+                        {% if professor.escolaridade == "MES" %}
+                            selected
+                        {% endif %}
+                    >
+                    Mestrado
+                    </option>
+                    <option 
+                        value="Dr" 
+                        {% if professor.escolaridade == "Dr" %}
+                            selected
+                        {% endif %}
+                    >
+                    Doutorado
+                    </option>
+                    
+                </select>
+            </div>
+            <div class="item">
+                <div>Tipo de Aula</div>
+                <span>
+                    <input 
+                        type="radio" 
+                        value="Presencial" 
+                        name="tipo_aula"
+                        {% if professor.tipo_aula == "Presencial" %}
+				            checked
+			            {% endif %}
+                        checked
+                    />
+                    Presencial
+                </span>
+                <span>
+                    <input 
+                        type="radio" 
+                        value="À distância" 
+                        name="tipo_aula" 
+                        {% if professor.tipo_aula == "À distância" %}
+				            checked
+			            {% endif %}
+                    />
+                    À distância
+                </span>
+            </div>
+            <div class="item">
+                <div>Área de atuação</div>
+                <input 
+                    type="text" 
+                    name="atuacao" 
+                    placeholder="Escreva aqui suas competências separadas por vírgula"
+                    value="{{professor.atuacao}}"
+                />
+            </div>
+            <button type="submit">Salvar</button>
