@@ -642,3 +642,137 @@ ________________________________________________________________________________
 		const month = `0${date.getUTCMonth() + 1}`.slice(-2)
 		const day = `0${date.getUTCDate()}`.slice(-2)
 
+____________________________________________________________________________________________________________________________-____________-
+										DESAFIO 4.5
+
+
+					*-*-*-*- Entendendo verbos HTTP -*-*-*-*
+		
+		.No arquivo show.njk, no "href" do botão editar, troque o conteudo para
+
+			."/instrutores/ {{ instructor.id }} /edit
+
+		// HTTP VERBS
+		// GET : Receber RESOURCE
+		// POST : Criar ou Salvar um RESOURCE
+		// PUT : Atualizar
+		// DELETE : Deletar
+
+		.No arquivo rotas.js em baixo da linha routes.post, crie a linha:
+
+			."routes.put("/instrutores", instructors.put)
+
+		.No arquivo instrutores.js em baixo do "exports.edit" crie um exports.put:
+
+			--//put
+			exports.put = function(req, res) {
+				const { id } = req.body
+				let index = 0
+
+				const foundInstructor = data.instructors.find(function(instrutor, foundIndex){
+					if (id == instrutor.id) {
+						index = foundIndex
+						return true
+					}
+				})
+
+				if (!foundInstructor) return res.send("instructor Not Found")
+
+				const instructor = {
+					...foundInstructor,
+					...req.body
+					birth: Date.parse(req.body.birth)
+				}
+
+				data.instructors[index] = instructor
+
+				fs.writeFile("data.json", JSON.stringify(data, null, 2), function (err) {
+					if(err) return res.send("write error!")
+
+					return res.redirect(`/instrutores/${id}`)
+				})
+			}--
+
+				
+				
+				
+				*-*-*-*- Trabalhando com Method override -*-*-*-*
+
+					.instale o method override :
+
+					 	"npm install method-override"
+
+					.No arquivo server.js em baixo da linha "const rotas" escreva:
+
+						const MethodOverride = require('method-override')
+					
+					.Ainda no arquivo server.js entre a linha "server.use express.static" e a linha "server.use routes" escreva:
+
+						server.use(MethodOverride('_method')) 
+
+					.No arquivo edit.njk mude o Action do form para:
+
+						action="/instrutores?_method=PUT"
+
+					TESTAR (ao tentar mudar o nome de algum instrutor vai dar erro de instructor not found)
+
+					.Para corrigir, abra o aquivo edit.njk
+						.Na section.details em baixo do include, crie o input:
+
+							input type="hidden" name="id" value={{instructor.id}}
+
+					
+					
+				
+				*-*-*-*- Deletando um instrutor -*-*-*-*
+
+		.No arquivo edit.njk crie um novo formulario:
+
+			form action="/instructors?_method=DELETE" method="post"
+
+			.Dentro desse formulario crie o input:
+
+				input type="hidden" name="id" value={{instructor.id}}
+				
+			.Ainda dentro do fomulario DELETE crie o button:
+
+				button type="submit" >DELETAR<
+
+		.Ainda no aquivo edit.njk 
+
+			.crie uma div de class card para colocar os forms dentro
+
+			.reorganize para o botão deletar ficar no lugar
+
+			.No form deletar coleque o id="form-delete"
+
+		.No arquivo style.css escreva:
+
+			#form-delete button[type="submit"] {
+				margin-top: 8px;
+				background-color: lightcoral
+			}
+
+		.No arquivo rotas.js em baixo da routes.put escreva a rota:
+
+			routes.delete("/instructors", instructors.delete)
+
+		.No arquivo instrutores.js escreva em baixo do exports.put:
+
+			exports.delete = function(req, res{
+				const { id } = req.body
+
+				const filteredInstructors = data.instructors.filter(function(instructor){
+					return instrutor.id != id
+				})
+
+				data.instructors = filteredInstructors
+
+				fs.writeFile("data.json", JSON.stringfy(data, null, 2), function(err) {
+					if (err) return res.send("Write file error!")
+
+					return res.redirect("/instructores")
+				})
+			})
+
+		TESTAR (tente deletar o id 1 e observe o data.json)
