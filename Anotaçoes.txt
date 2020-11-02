@@ -742,7 +742,21 @@ ________________________________________________________________________________
 
 			.crie uma div de class card para colocar os forms dentro
 
-			.reorganize para o botão deletar ficar no lugar
+			.reorganize:
+
+				<div class="card">
+					<section>
+					</section>
+	
+					<section class="Details">
+						<form edit>
+						</form edit>
+
+						<form delete>
+						</form delete>
+					</section>
+				/div
+
 
 			.No form deletar coleque o id="form-delete"
 
@@ -759,7 +773,7 @@ ________________________________________________________________________________
 
 		.No arquivo instrutores.js escreva em baixo do exports.put:
 
-			exports.delete = function(req, res{
+			exports.delete = function(req, res){
 				const { id } = req.body
 
 				const filteredInstructors = data.instructors.filter(function(instructor){
@@ -768,11 +782,11 @@ ________________________________________________________________________________
 
 				data.instructors = filteredInstructors
 
-				fs.writeFile("data.json", JSON.stringfy(data, null, 2), function(err) {
+				fs.writeFile("data.json", JSON.stringify(data, null, 2), function(err) {
 					if (err) return res.send("Write file error!")
 
 					return res.redirect("/instructores")
 				})
-			})
+			}
 
 		TESTAR (tente deletar o id 1 e observe o data.json)

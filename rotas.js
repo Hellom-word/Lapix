@@ -2,7 +2,7 @@ const express = require('express')
 const routes = express.Router()
 const professores = require('./professores')
 
-routes.get('/',  function(req, res){
+routes.get('/professores',  function(req, res){
     return res.render('professores/index')
 })
 routes.get('/estudantes',  function(req, res){
@@ -22,6 +22,8 @@ routes.get('/professores/:id/edit', professores.edit)
 
 routes.post("/professores", professores.post )
 
+routes.put("/professores", professores.put)
 
+routes.delete("/professores", professores.delete)
 
 module.exports = routes
