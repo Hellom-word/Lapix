@@ -1,26 +1,6 @@
 {
   "professores": [
     {
-      "id": 2,
-      "avatar_url": "http://www.google.com",
-      "name": "Luann",
-      "birth": 778377600000,
-      "escolaridade": "ESC",
-      "tipo_aula": "À distância",
-      "atuacao": "tecnico em eletronica, gay",
-      "created_at": 1602706888951
-    },
-    {
-      "id": 3,
-      "avatar_url": "https://conteudo.imguol.com.br/c/entretenimento/12/2020/02/08/as-estatuetas-do-oscar-prontas-para-serem-entregues-aos-vencedores-1581204604780_v2_1920x1280.jpg",
-      "name": "asdas",
-      "birth": 1601164800000,
-      "escolaridade": "MES",
-      "tipo_aula": "À distância",
-      "atuacao": "adasda, pudim, de leite ninho",
-      "created_at": 1604347398309
-    },
-    {
       "id": 4,
       "avatar_url": "https://conteudo.imguol.com.br/c/entretenimento/12/2020/02/08/as-estatuetas-do-oscar-prontas-para-serem-entregues-aos-vencedores-1581204604780_v2_1920x1280.jpg",
       "name": "Hellom",
