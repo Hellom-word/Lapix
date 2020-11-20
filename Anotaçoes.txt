@@ -742,21 +742,7 @@ ________________________________________________________________________________
 
 			.crie uma div de class card para colocar os forms dentro
 
-			.reorganize:
-
-				<div class="card">
-					<section>
-					</section>
-	
-					<section class="Details">
-						<form edit>
-						</form edit>
-
-						<form delete>
-						</form delete>
-					</section>
-				/div
-
+			.reorganize para o botão deletar ficar no lugar
 
 			.No form deletar coleque o id="form-delete"
 
@@ -773,7 +759,7 @@ ________________________________________________________________________________
 
 		.No arquivo instrutores.js escreva em baixo do exports.put:
 
-			exports.delete = function(req, res){
+			exports.delete = function(req, res{
 				const { id } = req.body
 
 				const filteredInstructors = data.instructors.filter(function(instructor){
@@ -782,11 +768,191 @@ ________________________________________________________________________________
 
 				data.instructors = filteredInstructors
 
-				fs.writeFile("data.json", JSON.stringify(data, null, 2), function(err) {
+				fs.writeFile("data.json", JSON.stringfy(data, null, 2), function(err) {
 					if (err) return res.send("Write file error!")
 
 					return res.redirect("/instructores")
 				})
-			}
+			})
 
 		TESTAR (tente deletar o id 1 e observe o data.json)
+
+		____________________________________________________________________________________________________________________________-____________-
+										DESAFIO 4.6 LISTANDO instrutores
+
+
+					
+					
+							*-*-*-*- Listando professores com tabelas em HTML -*-*-*-*
+		
+
+
+		.No arquivo index.njk tire todo conteudo da div class="card"
+
+			.Dentro voce vai colocar a tabela da seguinte forma:
+
+				<table> //tabela
+					<thead> //cabeçalho
+						<tr> //linha
+							<th> Instrutor </th>  //Coluna
+ 							<th> Atendimento </th>	
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td> Mayk </td>  //Coluna
+ 							<td> Natação </td>	
+						</tr>
+					<tbody>
+				</table>
+		
+		.No Arquivo Rotas, pegue a função do route.get da index e leve
+		para o arquivo instructors.js. No rotas vai ficar assim:
+
+			routes.get('/instructors', instructors.index)
+
+		.No arquivo instructors.js vai ficar assim:
+
+			exports.index = function(req, res){
+				return res.render("instructors/index", {instructors: data.instructors})
+			}
+		
+		.No Arquivo index.njk coloque o comando for para listagem dos instrutores na tabela:
+
+			{% for instructor in instructors %}
+			<tr>
+				<td> {{instructor.name}} </td>  //Coluna
+				<td> {{instructor.services}} </td>	
+			</tr>
+			{% endblock content %}
+
+
+
+
+
+									*-*-*-*- Estilizando a tabela -*-*-*-*
+
+
+		
+		.No arqutivo styles.css na ultima linha escreva o comentario:
+
+			/* Index instructors */
+
+		.No arquivo index.njk  da div.card acrescente a class table-container
+		.Acrescente um width de 100% na tag table: <table width="100%">
+		   e
+		.No arquivo styles.css, no /*index instrutores*/, crie as linhas:
+			
+			.table-container {
+				display: block;
+				padding: 40px;
+				box-sizing; border-box;
+			}
+
+			.table-container table {
+				border-spacing: 0;
+			}
+
+			.table-container thead tr th {
+				text-align: left;
+			}
+
+			td, th {
+				padding: 16px
+				border-bottom: 1px solid #d9d9d9;
+			}
+
+			tbody tr:last-child td {
+				border-bottom: none;
+			}
+
+
+
+
+
+								*-*-*-*- Adicionando Botoes na tabela -*-*-*-*
+
+
+
+		
+		.No arquivo index.njk coloque mais uma tag th na thead:
+
+				<th> Instrutor </th>
+ 				<th> Atendimento </th>	
+   	 --ESSA->   <th> Ação </th>          <-ESSA--	
+		
+			.Acrescente mais uma tag td no tbody:
+
+				<td> {{instructor.name}} </td>
+				<td> {{instructor.services}} </td>	
+	 --ESSA->   <td><a href="/instructors/{{instructor.id}}">Ver</a></td>          <-ESSA--	
+
+	 
+
+
+	 						*-*-*-*- Adicionando Imagem de Avatar na Tabela -*-*-*-*
+
+
+		.Quando a gente edita, o aquivo data.json esta salvando o id como string e a gente quer como numero, entao:
+
+			.No arquivo instructor.js No exports do PUT, embaixo da linha "birth: Date.parse(req.body.birth)", Escreva:
+
+				id:Number.(req.body.id)
+
+		.Atualize as fotos dos Avatares
+
+		.No index.njk, vamos acrescentar um SPAN, para colocar uma imagem, dentro do <td> instructor.name </td>, assim:
+
+			<td><span style="background-image: url({{instructor.avatar_url}})"></span>{{instructor.name}}</td>
+
+		.No arquivo styles.css vamos estilizar a imagem do avatar que será apresentada do index.njk, será assim:
+
+			tbody tr td:first-child {
+				display: grid;
+				grid-tamplate-columns: 64px 1fr;
+				align-items: center;
+			}
+
+			tbody tr td:first-child span {
+				width: 48px;
+				heigth: 48px;
+				background-position: center;
+				background-size: cover;
+
+				
+				border-radius: 50%;
+				box-shadow: 3px 1px 6px -4px black;
+				border: 2px solid white
+			}	
+
+
+
+
+				 						*-*-*-*- Ajustes Finais No estilo da Tabela -*-*-*-*
+
+
+		
+		.Ainda no styles.css em baixo na cascata "td, th {}" vamos colocar:
+
+			th {
+				text-transform: uppercase;
+				color: #777;
+				font-size: 14px
+			}
+		.Na ultima linha do arquivo, vamos estilizar o button "ver":
+
+			tbody tr td:last-child a {
+				background-color: var(--primary-color);
+				padding: 8px 16px;
+				text-decoration: none;
+				text-transform: uppercase;
+				color: white;
+				font-size: 12px;
+				border-radius: 4px;
+			}
+		
+		.Colocando as palavras na coluna de "ação" alinhadas ao centro
+
+			.table-container thead tr th:last-child, td:last-child {
+				text-align: center;
+			}
