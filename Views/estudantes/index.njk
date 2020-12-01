@@ -1,5 +1,25 @@
-{% extends 'layout.njk' %}
+{% extends "layout.njk" %}
 
 {% block content %}
-    <img src="https://img1.gratispng.com/20180411/pte/kisspng-youtube-facebook-like-button-emoticon-thumbs-up-5aceb535d3f8d6.7288283715234962458683.jpg" alt="">
+    <div class="card table-container">
+        <a href="/estudantes/create">Novo</a>
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th>Nome Completo</th>
+                    <th>Atendimento</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for estudante in estudantes %}
+                <tr>
+                    <td> <span style="background-image: url({{estudante.avatar_url}})"></span>{{estudante.name}} </td>
+                    <td> {{estudante.atuacao}} </td>    
+                    <td> <a href="estudantes/{{estudante.id}}">Ver</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>    
+        </table>
+    </div>
 {% endblock content %}

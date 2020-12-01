@@ -434,6 +434,7 @@ ________________________________________________________________________________
 		.No arquivo instructors.js na variavel "const instructor" o created_at fica assim:
 
 			"created_at: new Intl.DateTimeFormat,("pt-BR").format(foundInstructor.created_at),"
+			
 			//Utilização do constructor Intl para formatação da Data
 
 
@@ -956,3 +957,447 @@ ________________________________________________________________________________
 			.table-container thead tr th:last-child, td:last-child {
 				text-align: center;
 			}
+
+
+
+
+____________________________________________________________________________________________________________________________-____________-
+										DESAFIO 4.7 Membros
+
+
+										
+
+				 		*-*-*-*- Estruturando Página de Membros -*-*-*-*
+
+
+
+		.Copiar a pasta instructors e criar a pasta Membros
+			
+		.Abrir o arquivo Rota.js para criar a rota de Membros
+			.Copiar desde a linha "Routes.get('/instructors', instructors.index)
+
+			.Até a linha "Routes.delete()
+
+			.Tirar a linha de espaço entre as rotas de instrutores
+
+			.Use ctrl-D e selecione as palavrar instructors das linhas copiadas
+				.troque a palavra instructors pela palavra members
+				.tire as linhas entre as rotas members
+			
+			.Crie a pasta(diretorio) controllers
+				.Coloque o arquivo instructors.js dentro dessa pasta
+				.Copie o arquivo instructors.js e cole renomeando para: members.js
+
+			.Usando ctrl-F no arquivo Members.js, renomeie tudo que for:
+				. Marque a opção de maiusculo e minusculo
+					.Serve para ser sensivel ao caso.
+				. 'instructor' mudar para 'member'
+				. 'Instructors' mudar para 'Members'
+				 
+			.Ainda no aruivo members.js na variavel "const member"
+				.Delete a linha Services
+				.Delete a linha created_at
+				.Verique se os nomes estão corretos
+
+			.No aquivo data.JSON, crie uma array de members
+	
+			{
+				"members": [],
+				"instructors": [
+								{
+								"id": 7,
+								"avatar_url": "https://images.unsplash.com/photo-1550345332-09e3ac987658?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80",
+								"name": "Natalia Miranda",
+								"birth": 718329600000,
+								"gender": "F",
+								"services": "musculação, personal trainer, nutrição",
+								"created_at": 1601206140901
+								}
+			}
+
+			.No arquivo Rotas.js vamos passar a rota "routes.get members/create" para o arquivo members.js
+
+				.Reescreva a linha para:
+					routes.get('members/create', members.create)
+				
+				*FAZER TAMBÉM NA PARTE DE INSTRUCTORS*
+
+			.No arquivo members.js: 
+				.Renomeie o comentario //Create para //post
+				.Crie o comentario //Create
+				.Em baixo do exports.show crie a linha:
+
+					exports.create = function(req, res) {
+						return render('members/create')
+					}
+				
+				*FAZER TAMBÉM NA PARTE DE INSTRUCTORS*
+
+			.Tirar os comentarios no arquivo members.js e instructors.js
+
+			.No arquivo rotas.js mude a variavel "const instructors" para:
+
+				const instructors = require('./controllers/instructors')
+
+			.Ainda no arquivo rotas.js, embaixo do "const instructors", crie a linha:
+
+				const members = require('./controllers/members')
+
+			.No arquivo instructors.js e members.js mude a variavel "const data" e "const {age, date}" para:
+
+				const data = require('../data.json')
+				const { age, date } = require('../utils')
+
+			
+
+
+
+				 		
+						 *-*-*-*- Lógica do Menu Ativo -*-*-*-*
+
+					
+
+
+
+
+		.No arquivo scripts.js, delete todas as linhas e escreva:
+
+			const currentPage = location.pathname
+			const menuItems = document.querySelectorAll("header .links a")
+
+			for (item of menuItems) {
+				if (currentPage.includes(item.getAttribute("href"))) {			
+				item.classList.add("active")
+				}
+			}
+
+		.No arquivo layout.njk no fim da body, escreva:
+
+			<script src="/scripts.js"></script>
+
+			.Nas tag's "a" da div.links reescreva o conteudo do href, para:
+
+				href="/instructors"
+				href="/members"
+
+				.E tira a class active
+
+
+		
+		
+						 *-*-*-*- Criando botão para adicionar Membros -*-*-*-*
+
+		
+
+		.No diretorio instructors no arquivo index.njk
+
+			.Entre a div.card e a tag <table>, crie a linha:
+
+				<a href="/instructors/create">Novo</a>
+		
+		.No arquivo styles.css:
+
+			.Junto Na cascata "tbody tr td:first-child a", acrescente:
+
+				.table-container > a
+
+			.Em baixo crie a cascata:
+
+				.table-container > a {
+					margin-bottom: 16px;
+					display: inline-block;
+				}
+
+		*REPLICAR ESSAS CONFIGURAÇOES PARA A PARTE MEMBERS*
+
+
+
+
+		
+		
+						 *-*-*-*- Ajustando formulario para cadastro de membro -*-*-*-*
+
+
+
+
+		.No arquivo create.njk do diretorio members
+
+			.Mude o conteudo da tag h3 para: 
+				
+				<h3>Novo Membro</h3>
+
+			.Use ctrl-F para mudar:
+
+				instructor POR member
+			
+			.Salve
+
+		.No arquivo fields.njk do doretorio MEMBERS:
+
+			.Na primeira div.item mude o conteudo da primeira div:
+
+				.De >Instrutor< PARA >Nome<
+				.Tire o placeholder
+
+			.Crie uma div class item type=email:
+
+				.name="email"
+				.Sem placeholder
+			
+			.Tire a div.item da area de atuação
+
+			.Crie uma div.item de tipo sanguineo:
+
+				<div class="item">
+                <div>Tipo Sanguíneo</div>
+                <div>
+					<select name="blood">
+						<option value="A+"{% if member.blood == "A+"%}selected{%endif%}>
+							A+
+						</option>
+						<option value="A-"{% if member.blood == "A-"%}selected{%endif%}>
+							A-
+						</option>
+						<option value="B+"{% if member.blood == "B+"%}selected{%endif%}>
+							B+
+						</option>
+						<option value="B-"{% if member.blood == "B-"%}selected{%endif%}>
+							B-
+						</option>
+						<option value="AB+"{% if member.blood == "AB+"%}selected{%endif%}>
+							AB+
+						</option>
+						<option value="AB-"{% if member.blood == "AB-"%}selected{%endif%}>
+							AB-
+						</option>
+						<option value="O+"{% if member.blood == "O+"%}selected{%endif%}>
+							O+
+						</option>
+						<option value="O-"{% if member.blood == "O-"%}selected{%endif%}>
+							O-
+						</option>
+					</select>
+				</div>    
+            </div>
+
+			
+			.Crie uma div.item de Peso(kg):
+
+			<div class="item">
+                <div>Peso (kg)</div>	
+				<div>
+					<input
+						type="number"
+						name="weight"
+						value="{{ instructor.weight }}"
+					/>
+				</div>
+            </div>
+
+			.Crie uma div.item de Altura:
+
+			<div class="item">
+                <div>Altura (cm)</div>	
+				<div>
+					<input
+						type="number"
+						name="height"
+						value="{{ instructor.height }}"
+					/>
+				</div>
+            </div>
+
+			.Use ctrol-F para trocar:
+
+				instructor POR member
+
+		
+
+
+						 *-*-*-*- Ajustando dados de cadastro de novo membro -*-*-*-*
+
+
+
+		.No arquivo members.js em exports.post, deleta o let depois da validação KEY
+
+		.Mude o birth para:
+
+			birth = Date.parse(req.body.birth)
+
+		.Troque o const Id por:
+
+			let id = 1
+			const lastMember = data.members[data.members.length - 1]
+ 				
+			if(lastMember) {
+				id = lastMember.id + 1
+			}
+
+		.mude o data.members.push para:
+
+			data.members.push({
+				id,
+				...req.body,
+				birth
+			})
+
+		.Cadastre um membro
+
+	
+
+
+						 *-*-*-*- Apresentação de membros -*-*-*-*
+		
+
+
+		.No show.njk no diretorio Members
+
+			.Use ctrol-F para trocar 
+
+				instructor POR members
+
+			.Mude a primeria div.item para >Membro<
+
+			.Crie a segunda div.item para >E-mail<
+
+				e member.email
+
+			.Mude a div.item >idade< para >Aniversário<
+
+				e member.birth
+
+			.Delete a div.item >Acompanhamento<
+
+			.Crie a div.item >Tipo Sanguineo<
+
+				member.blood
+
+			.Crie a div.item >Peso (kg)<
+
+				member.weight
+
+			.Crie a div.item >Altura (cm)<
+
+				member.height
+
+
+
+
+
+						 *-*-*-*- Reestruturando dados para Datas Atualizadas -*-*-*-*
+
+	PAREI ESTOU AQUI
+
+
+		.No arquivo utils.js mude o return do data:function para:
+
+			return {
+				day,
+				month,
+				year,
+				iso: `${year}-${month}-${day}`,
+				birthDay:`${day}/${month}`
+			}	
+
+		.No arquivo instructors.js no exports.edit:
+
+			.mude o birth para:
+
+				birth: date(foundInstructor.birth).iso
+
+		.No arquivo members.js no exports.edit:
+
+			.mude a linha da const "age" para:
+
+				birth: date(foundMembers.birth).birthDay
+
+
+
+
+
+						 *-*-*-*- Editanto Membros -*-*-*-*
+		
+
+		.No arquivo edit.njk do diretorio members:
+
+			.Mude o conteudo da Tag h3 para >Editar Membro<
+
+			.Use ctrl-F para trocar
+
+				instructor POR member
+
+		.No arquivo members.js no exports.edit:
+
+			.Mude o birth para:
+
+				birth: date(foundMember.birth).iso
+
+
+		
+
+
+					 *-*-*-*- Confirmação e exclusao de membros *-*-*-*
+
+
+
+
+		.No Arquivo edit.njk no diretorio members, antes do endblock crie o script
+
+			<script>
+
+				const formDelete = document.querySelector("#form-delete")
+				formDelete.addEventListener("submit", function(event){
+					const confirmation = confirm("Deseja Deletar?")
+					if(!confirmation){
+						event.preventDefault()
+					}
+				})
+				
+			</script>
+
+			*ACRESCENTAR TAMBEM NO edit.njk DO diretorio instructors*
+
+
+
+
+
+					 *-*-*-*- Listagem dos Membros *-*-*-*
+
+		
+
+		.No Arquivo index.njk do diretorio members:
+
+			.Mude as <th> das <thead> para as segguintes:
+
+				<th>Membro</th>
+				<th>Email</th>
+				<th>Peso</th>
+				<th>Altura</th>
+				<th>Ação</th>
+
+			.Use ctrl-F para mudar de instructor para member
+
+			.No lugar do <td>.services colocar:
+
+				<td>{{member.email}}</td>
+				<td>{{member.weight}} kg</td>
+				<td>{{member.height}} cm</td>
+
+				
+
+
+					 *-*-*-*- Ajustes Finais *-*-*-*
+
+
+
+		.No arquivo styles.css:
+
+			.Na cascata "input" acrescente o "select"
+
+		.No arquivo edit.njk do diretorio members:
+
+			.Mude o style da primeira <section> para:
+
+				style="background: url({{member.avatar_url}}) no-repeat center center / cover;"
+
+		 	*Mudar tambem no diretorio intructors*

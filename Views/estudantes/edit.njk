@@ -1,0 +1,28 @@
+{% extends "layout.njk" %}
+
+{% block content %}
+    
+    <div class="card">
+        <section 
+            class="avatar" 
+            style= "background: url(https://source.unsplash.com/collection/8874679/500x500) no-repeat center center / cover;">
+        </section>
+
+        <section class="details">
+            <form method="POST" action="/estudantes?_method=PUT" >
+                    <h3>Editar Professor</h3>
+
+                    {% include 'estudantes/fields.njk'%}
+
+                    <input type="hidden" name="id" value="{{estudante.id}}">
+
+            </form>
+            <form id="form-delete" action="/estudantes?_method=DELETE" method="post">
+
+                <input type="hidden" name="id" value={{estudante.id}}>
+                <button type="submit">Delete</button>
+
+            </form>
+        </section>
+    </div>
+{% endblock content %}

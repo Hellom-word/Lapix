@@ -32,6 +32,35 @@ module.exports = {
         }
         return school
     },
+    graduationFund: function graduationFund(school){
+            
+
+        if (school == 'ano5'){
+            school = '5° Ano do Ensino fundamental'
+        }
+        if(school == 'ano6'){
+            school = '5° Ano do Ensino fundamental'
+        }
+        if(school == 'ano7'){
+            school = '7° Ano do Ensino fundamental'
+        }
+        if(school == 'ano8'){
+             school = '8° Ano do Ensino fundamental'
+        }
+        if(school == 'ano9'){
+            school = '9° Ano do Ensino fundamental'
+       }
+       if(school == 'medio1'){
+            school = '1° Ano do Ensino Médio'
+        }
+        if(school == 'medio2'){
+            school = '2° Ano do Ensino Médio'
+        }
+        if(school == 'medio3'){
+            school = '3° Ano do Ensino Médio'
+        }
+        return school
+    },
     date: function(timestamp){
         const date = new Date(timestamp)
 

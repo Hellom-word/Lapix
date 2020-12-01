@@ -1,14 +1,13 @@
-const data = require("./data.json")
+const data = require("../data.json")
 const fs= require('fs')
-const {age, graduation, date}= require('./utils')
+const {age, graduation, date}= require('../utils')
 
-//index
 exports.index =   function(req, res){
     return res.render('professores/index', {professores: data.professores})
 }
-
-
-//create
+exports.create = function(req, res){
+    return res.render('professores/create')
+}
 exports.post = function(req, res){ 
 
     const keys = Object.keys(req.body)
@@ -42,10 +41,8 @@ exports.post = function(req, res){
     })
     
     
-    return res.redirect("./")
+    return res.redirect("./professores")
 }
-
-// show
 exports.show = function(req, res){
     const { id } = req.params 
 
@@ -69,8 +66,6 @@ exports.show = function(req, res){
 
 
 }						
-// Edit
-
 exports.edit = function(req, res){
     const { id } = req.params 
 
@@ -87,8 +82,6 @@ exports.edit = function(req, res){
 
     return res.render('professores/edit', { professor})
 }
-
-//put
 exports.put = function(req, res) {
     const { id } = req.body
     let index = 0
@@ -117,8 +110,6 @@ exports.put = function(req, res) {
         return res.redirect(`/professores/${id}`)
     })
 }
-//delete
-
 exports.delete = function(req, res){
     const { id } = req.body
 

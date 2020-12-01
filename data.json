@@ -1,4 +1,16 @@
 {
+  "estudantes": [
+    {
+      "id": 1,
+      "avatar_url": "https://images.unsplash.com/photo-1556302132-40bb13638500?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1510&q=80",
+      "name": "Hellom Oliveira",
+      "email": "hellom-mendes@hotmail.com",
+      "birth": 967766400000,
+      "escolaridade": "ano5",
+      "cargHorSem": "20",
+      "atuacao": "Física, Matemática"
+    }
+  ],
   "professores": [
     {
       "id": 4,

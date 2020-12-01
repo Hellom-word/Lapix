@@ -1,0 +1,153 @@
+            <div class="item">
+                <div>Foto de Perfil</div>
+                <input 
+                    type="url" 
+                    name="avatar_url" 
+                    placeholder="http//" 
+                    value="{{estudante.avatar_url}}"
+                />
+            </div>
+            <div class="item">
+                <div>Nome</div>
+                <input 
+                    type="txt" 
+                    name="name" 
+                    value="{{estudante.name}}"
+                />
+            </div>
+            <div class="item">
+                <div>E-mail</div>
+                <input 
+                    type="email" 
+                    name="email" 
+                    value="{{estudante.email}}"
+                />
+            </div>
+            <div class="item">
+                <div>Aniversário</div>
+                <input 
+                    type="date" 
+                    name="birth" 
+                    value="{{estudante.birth}}"
+                />
+            </div>
+            <div class="item">
+                <div>Grau de Escolaridade</div>
+                <select name="escolaridade">
+                    
+                    <option 
+                        value="ano5" 
+                        {% if estudante.escolaridade == ano5 %}
+                            selected
+                        {% endif %}
+                    >
+                    5° Ano do Ensino fundamental
+                    </option>
+                    
+                    <option 
+                        value="ano6" 
+                        {% if estudante.escolaridade == "ano6" %}
+                            selected
+                        {% endif %}
+                    >
+                    6° Ano do Ensino fundamental
+                    </option>
+                    
+                    <option 
+                        value="ano7" 
+                        {% if estudante.escolaridade == "ano7" %}
+                            selected
+                        {% endif %}
+                    >
+                    7° Ano do Ensino fundamental
+                    </option>
+                    <option 
+                        value="ano8" 
+                        {% if estudante.escolaridade == "ano8" %}
+                            selected
+                        {% endif %}
+                    >
+                    8° Ano do Ensino fundamental
+                    </option>
+                    <option 
+                        value="ano9" 
+                        {% if estudante.escolaridade == "ano9" %}
+                            selected
+                        {% endif %}
+                    >
+                    9° Ano do Ensino fundamental
+                    </option>
+                    <option 
+                        value="medio1" 
+                        {% if estudante.escolaridade == "medio1" %}
+                            selected
+                        {% endif %}
+                    >
+                    1° Ano do Ensino Médio
+                    </option>
+                    <option 
+                        value="medio2" 
+                        {% if estudante.escolaridade == "medio2" %}
+                            selected
+                        {% endif %}
+                    >
+                    2° Ano do Ensino Médio
+                    </option>
+                    <option 
+                        value="medio3" 
+                        {% if estudante.escolaridade == "medio3" %}
+                            selected
+                        {% endif %}
+                    >
+                    3° Ano do Ensino Médio
+                    </option>
+                    
+                </select>
+            </div>
+            {# <div class="item">
+                <div>Tipo de Aula</div>
+                <span>
+                    <input 
+                        type="radio" 
+                        value="Presencial" 
+                        name="tipo_aula"
+                        {% if estudante.tipo_aula == "Presencial" %}
+				            checked
+			            {% endif %}
+                        checked
+                    />
+                    Presencial
+                </span>
+                <span>
+                    <input 
+                        type="radio" 
+                        value="À distância" 
+                        name="tipo_aula" 
+                        {% if estudante.tipo_aula == "À distância" %}
+				            checked
+			            {% endif %}
+                    />
+                    À distância
+                </span>
+            </div> #}
+            <div class="item">
+                <div>Carga Horária Semanal (horas)</div>	
+				<div>
+					<input
+						type="number"
+						name="cargHorSem"
+						value="{{ estudante.cargHorSem }}"
+					/>
+				</div>
+            </div>
+            <div class="item">
+                <div>Competências Desejadas</div>
+                <input
+                    class="placeholder"
+                    type="text" 
+                    name="atuacao" 
+                    placeholder="Escreva aqui as competências que deseja estudar separadas por vírgula"
+                    value="{{estudante.atuacao}}"
+                />
+            </div>
+            <button type="submit">Salvar</button>
