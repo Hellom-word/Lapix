@@ -32,7 +32,7 @@ module.exports = {
         }
         return school
     },
-    graduationFund: function graduationFund(school){
+    grade: function grade(school){
             
 
         if (school == 'ano5'){
@@ -70,6 +70,12 @@ module.exports = {
 
         //return yyyy-mm-dd
         console.log(`${year}-${month}-${day}`)
-        return `${year}-${month}-${day}`
+        return {
+            day,
+            month,
+            year,
+            iso: `${year}-${month}-${day}`,
+            birthDay:`${day}/${month}`
+        }
     }
 }

@@ -7,7 +7,8 @@
             <thead>
                 <tr>
                     <th>Nome Completo</th>
-                    <th>Atendimento</th>
+                    <th>E-mail</th>
+                    <th>Ano Escolar</th>
                     <th>Ação</th>
                 </tr>
             </thead>
@@ -15,7 +16,34 @@
                 {% for estudante in estudantes %}
                 <tr>
                     <td> <span style="background-image: url({{estudante.avatar_url}})"></span>{{estudante.name}} </td>
-                    <td> {{estudante.atuacao}} </td>    
+                    <td> {{estudante.email}} </td>
+                    <td> 
+                        {% if ({{estudante.escolaridade}}) = "ano5" %}
+                            5° Ano do Ensino fundamental
+                        {% endif %}
+                        {# {% if ({{estudante.escolaridade}}) = "ano6" %}
+                            6° Ano do Ensino fundamental
+                        {% endif%}
+                        {% if ({{estudante.escolaridade}}) = "ano7" %}
+                            7° Ano do Ensino fundamental
+                        {% endif%}
+                        {% if ({{estudante.escolaridade}}) = "ano8" %}
+                            8° Ano do Ensino fundamental
+                        {% endif%}
+                        {% if ({{estudante.escolaridade}}) = "ano9" %}
+                            9° Ano do Ensino fundamental
+                        {% endif%}
+                        {% if ({{estudante.escolaridade}}) = "medio1" %}
+                            1° Ano do Ensino Médio
+                        {% endif%}
+                        {% if ({{estudante.escolaridade}}) = "medio2" %}
+                            2° Ano do Ensino Médio
+                        {% endif%}
+                        {% if ({{estudante.escolaridade}}) = "medio1" %}
+                            3° Ano do Ensino Médio
+                        {% endif%} #}
+
+                     </td>    
                     <td> <a href="estudantes/{{estudante.id}}">Ver</a></td>
                 </tr>
                 {% endfor %}

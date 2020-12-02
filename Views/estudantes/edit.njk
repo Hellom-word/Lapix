@@ -5,12 +5,12 @@
     <div class="card">
         <section 
             class="avatar" 
-            style= "background: url(https://source.unsplash.com/collection/8874679/500x500) no-repeat center center / cover;">
+            style= "background: url({{estudante.avatar_url}}) no-repeat center center / cover;">
         </section>
 
         <section class="details">
             <form method="POST" action="/estudantes?_method=PUT" >
-                    <h3>Editar Professor</h3>
+                    <h3>Editar Aluno</h3>
 
                     {% include 'estudantes/fields.njk'%}
 
@@ -25,4 +25,5 @@
             </form>
         </section>
     </div>
+    {% include '../confirm.njk'%}
 {% endblock content %}

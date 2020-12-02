@@ -77,7 +77,7 @@ exports.edit = function(req, res){
 
     const professor = {
         ...foundProfessor,
-        birth: date(foundProfessor.birth)
+        birth: date(foundProfessor.birth).iso
     }
 
     return res.render('professores/edit', { professor})

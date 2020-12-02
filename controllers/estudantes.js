@@ -1,6 +1,6 @@
 const data = require('../data.json')
 const fs= require('fs')
-const { age, graduationFund, date } = require('../utils')
+const { age, grade, date } = require('../utils')
 
 
 exports.index =   function(req, res){
@@ -55,8 +55,8 @@ exports.show = function(req, res){
 
     const estudante = {
         ...foundEstudante, 
-        age: age(foundEstudante.birth),
-        escolaridade: graduationFund(foundEstudante.escolaridade),
+        birth: date(foundEstudante.birth).birthDay,
+        escolaridade: grade(foundEstudante.escolaridade),
         atuacao: foundEstudante.atuacao.split(","),
         /* created_at: new Intl.DateTimeFormat("en-us").format(foundEstudante.created_at) */
     }
@@ -76,7 +76,7 @@ exports.edit = function(req, res){
 
     const estudante = {
         ...foundEstudante,
-        birth: date(foundEstudante.birth)
+        birth: date(foundEstudante.birth).iso
     }
 
     return res.render('estudantes/edit', { estudante})

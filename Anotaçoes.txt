@@ -1305,7 +1305,7 @@ ________________________________________________________________________________
 
 				birth: date(foundInstructor.birth).iso
 
-		.No arquivo members.js no exports.edit:
+		.No arquivo members.js no exports.show:
 
 			.mude a linha da const "age" para:
 
