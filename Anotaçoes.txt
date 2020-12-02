@@ -1286,8 +1286,6 @@ ________________________________________________________________________________
 
 						 *-*-*-*- Reestruturando dados para Datas Atualizadas -*-*-*-*
 
-	PAREI ESTOU AQUI
-
 
 		.No arquivo utils.js mude o return do data:function para:
 
@@ -1387,8 +1385,6 @@ ________________________________________________________________________________
 
 
 					 *-*-*-*- Ajustes Finais *-*-*-*
-
-
 
 		.No arquivo styles.css:
 
