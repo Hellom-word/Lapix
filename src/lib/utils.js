@@ -1,6 +1,6 @@
 module.exports = {
     
-	age: function age(timestamp){
+	age(timestamp){
             
             const today = new Date()
 			const birthDate = new Date(timestamp)
@@ -15,7 +15,7 @@ module.exports = {
 			return age
     },
     
-    graduation: function graduation(school){
+    graduation(school){
             
 
         if (school == 'EMC'){
@@ -32,7 +32,7 @@ module.exports = {
         }
         return school
     },
-    grade: function grade(school){
+    grade(school){
             
 
         if (school == 'ano5'){
@@ -61,7 +61,7 @@ module.exports = {
         }
         return school
     },
-    date: function(timestamp){
+    date(timestamp){
         const date = new Date(timestamp)
 
         const year = date.getUTCFullYear()

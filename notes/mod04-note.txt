@@ -965,7 +965,7 @@ ________________________________________________________________________________
 										DESAFIO 4.7 Membros
 
 
-										
+
 
 				 		*-*-*-*- Estruturando Página de Membros -*-*-*-*
 
@@ -1055,7 +1055,7 @@ ________________________________________________________________________________
 				 		
 						 *-*-*-*- Lógica do Menu Ativo -*-*-*-*
 
-					
+
 
 
 
@@ -1093,7 +1093,7 @@ ________________________________________________________________________________
 
 			.Entre a div.card e a tag <table>, crie a linha:
 
-				<a href="/instructors/create">Novo</a>
+				<a href="/instructors/create">Novo</>
 		
 		.No arquivo styles.css:
 
@@ -1117,8 +1117,8 @@ ________________________________________________________________________________
 		
 						 *-*-*-*- Ajustando formulario para cadastro de membro -*-*-*-*
 
-
-
+		
+PAREI aqui
 
 		.No arquivo create.njk do diretorio members
 
@@ -1229,7 +1229,7 @@ ________________________________________________________________________________
 			let id = 1
 			const lastMember = data.members[data.members.length - 1]
  				
-			if(lastMember) {
+			if(lastID) {
 				id = lastMember.id + 1
 			}
 
@@ -1286,7 +1286,6 @@ ________________________________________________________________________________
 
 						 *-*-*-*- Reestruturando dados para Datas Atualizadas -*-*-*-*
 
-
 		.No arquivo utils.js mude o return do data:function para:
 
 			return {
@@ -1303,7 +1302,7 @@ ________________________________________________________________________________
 
 				birth: date(foundInstructor.birth).iso
 
-		.No arquivo members.js no exports.show:
+		.No arquivo members.js no exports.edit:
 
 			.mude a linha da const "age" para:
 
@@ -1385,6 +1384,8 @@ ________________________________________________________________________________
 
 
 					 *-*-*-*- Ajustes Finais *-*-*-*
+
+
 
 		.No arquivo styles.css:
 
