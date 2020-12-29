@@ -1,8 +1,13 @@
 const { age, date } = require('../../lib/utils')
+const db = require('../../config/db')
+const Teacher = require ('../models/Teacher')
 
 module.exports = {
     index(req, res){
-        return res.render('professores/index')
+        Teacher.all(function(teachers) {
+            return res.render("professores/index", {teachers})
+    
+        })
     },   
     create(req, res){
         return res.render('professores/create')        
@@ -17,11 +22,21 @@ module.exports = {
             }
         }
 
-        let {avatar_url, birth, name, escolaridade, tipo_aula, atuacao} = req.body        
-    
+        Teacher.create(req.body, function(teachers) {
+            return res.redirect(`/professores/${teachers.id}`)
+        })
     },   
     show(req, res){
-        return        
+        Teacher.find(req.params.id, function(teacher){
+            if (!teacher) return res.send("Instructor no found!")
+
+            teacher.age = age(teacher.birth_date)
+            teacher.subjects_taught = teacher.subjects_taught.split(",")
+            teacher.created_at = date(teacher.created_at).format
+            teacher.education_level = graduation(teacher.education_level)
+
+            return res.render("professores/show.njk", { teacher })
+        })    
     },                
     edit(req, res){
         return
@@ -35,7 +50,7 @@ module.exports = {
                 return res.send('Please, fill all fields!')
             }
         }
-
+        return
     },   
     delete(req, res){
         return

@@ -2,41 +2,41 @@
 
 {% block content %}
     <div class="card">
-        <section class="avatar" style= "background: url({{professor.avatar_url}}) no-repeat center center / cover;">
+        <section class="avatar" style= "background: url({{teacher.avatar_url}}) no-repeat center center / cover;">
 
         </section>
         <section class="details">
             <h3>Detalhes</h3>
             <div class="item">
                 <div>Professor</div>
-                <div>{{professor.name}}</div>
+                <div>{{teacher.name}}</div>
             </div>
             <div class="item">
                 <div>Idade</div>
-                <div>{{professor.age}}</div>
+                <div>{{teacher.age}}</div>
             </div>
             <div class="item">
                 <div>Grau de Escolaridade</div>
-                <div>{{professor.escolaridade}}</div>
+                <div>{{teacher.education_level}}</div>
             </div>
             <div class="item">
                 <div>Tipo de Aula</div>
-                <div>{{professor.tipo_aula}}</div>
+                <div>{{teacher.class_type}}</div>
             </div>
             <div class="item">
                 <div>Acompanhamento</div>
                 <div>
-						{% for atuacao in professor.atuacao %}
-						<span> {{atuacao}} </span>
+						{% for subject in teacher.subjects_taught %}
+						<span> {{subject}} </span>
 						{% endfor %}
 				</div>
             </div>
             <div class="item">
                 <div>Cadastrado em:</div>
-                <div>{{professor.created_at}}</div>
+                <div>{{teacher.created_at}}</div>
             </div>
 
-            <a href="/professores/{{professor.id}}/edit" class="button">Editar</a>
+            <a href="/professores/{{teacher.id}}/edit" class="button">Editar</a>
             
         </section>
     </div>

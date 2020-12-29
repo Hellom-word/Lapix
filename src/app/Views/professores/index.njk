@@ -12,11 +12,11 @@
                 </tr>
             </thead>
             <tbody>
-                {% for professor in professores %}
+                {% for teacher in teachers %}
                 <tr>
-                    <td> <span style="background-image: url({{professor.avatar_url}})"></span>{{professor.name}} </td>
-                    <td> {{professor.atuacao}} </td>    
-                    <td> <a href="professores/{{professor.id}}">Ver</a></td>
+                    <td> <span style="background-image: url({{teacher.avatar_url}})"></span>{{teacher.name}} </td>
+                    <td> {{teacher.subjects_taught}} </td>    
+                    <td> <a href="professores/{{teacher.id}}">Ver</a></td>
                 </tr>
                 {% endfor %}
             </tbody>    

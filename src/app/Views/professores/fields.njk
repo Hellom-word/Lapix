@@ -26,11 +26,11 @@
             </div>
             <div class="item">
                 <div>Grau de Escolaridade</div>
-                <select name="escolaridade">
+                <select name="education_level">
                     
                     <option 
                         value="EMC" 
-                        {% if professor.escolaridade == EMC %}
+                        {% if professor.education_level == EMC %}
                             selected
                         {% endif %}
                     >
@@ -39,7 +39,7 @@
                     
                     <option 
                         value="ESC" 
-                        {% if professor.escolaridade == "ESC" %}
+                        {% if professor.education_level == "ESC" %}
                             selected
                         {% endif %}
                     >
@@ -48,7 +48,7 @@
                     
                     <option 
                         value="MES" 
-                        {% if professor.escolaridade == "MES" %}
+                        {% if professor.education_level == "MES" %}
                             selected
                         {% endif %}
                     >
@@ -56,7 +56,7 @@
                     </option>
                     <option 
                         value="Dr" 
-                        {% if professor.escolaridade == "Dr" %}
+                        {% if professor.education_level == "Dr" %}
                             selected
                         {% endif %}
                     >
@@ -71,8 +71,8 @@
                     <input 
                         type="radio" 
                         value="Presencial" 
-                        name="tipo_aula"
-                        {% if professor.tipo_aula == "Presencial" %}
+                        name="class_type"
+                        {% if professor.class_type == "Presencial" %}
 				            checked
 			            {% endif %}
                         checked
@@ -83,8 +83,8 @@
                     <input 
                         type="radio" 
                         value="À distância" 
-                        name="tipo_aula" 
-                        {% if professor.tipo_aula == "À distância" %}
+                        name="class_type" 
+                        {% if professor.class_type == "À distância" %}
 				            checked
 			            {% endif %}
                     />
@@ -95,9 +95,9 @@
                 <div>Área de atuação</div>
                 <input 
                     type="text" 
-                    name="atuacao" 
+                    name="subjects_taught" 
                     placeholder="Escreva aqui suas competências separadas por vírgula"
-                    value="{{professor.atuacao}}"
+                    value="{{professor.subjects_taught}}"
                 />
             </div>
             <button type="submit">Salvar</button>
