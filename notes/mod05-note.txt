@@ -487,8 +487,6 @@ ________________________________________________________________________________
 
 
 
-PAREI AQUI ESTOU
-
 +++++++++++++++++++++++ Editando Dados do bancos +++++++++++++++++++
 
 
@@ -498,9 +496,9 @@ PAREI AQUI ESTOU
         Instructor.find(req.params.id, function (instructor){
             if (!instructor) return res.send("Instructor no found!")
 
-            instructor.birth = date(instrutor.birth).iso
+            instructor.birth = date(instructor.birth).iso
 
-            return res.render("instructors/edit", { instrutor })
+            return res.render("instructors/edit", { instructor })
         })
 
     .No arquivo Instructor.js, crie um novo objeto em baixo do obj FIND:
@@ -531,7 +529,7 @@ PAREI AQUI ESTOU
             })
         }
 
-    .No arquivo instructors.js, na função PUT escreva:
+    .No arquivo instructors.js, na função PUT reescreva:
 
         const keys = Object.keys(req.body)
 
@@ -547,7 +545,7 @@ PAREI AQUI ESTOU
 
 
 
-
+PAREI AQUI ESTOU
 
 
 

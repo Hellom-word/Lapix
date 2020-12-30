@@ -39,18 +39,27 @@ module.exports = {
         })    
     },                
     edit(req, res){
-        return
+        Teacher.find(req.params.id, function (teacher){
+            if (!teacher) return res.send("Instructor no found!")
+
+            teacher.birth = date(teacher.birth).iso
+
+            return res.render("professoress/edit", { teacher })
+        })
     },   
     put(req, res){
         
         const keys = Object.keys(req.body)
 
         for(key of keys) {
-            if (req.body[key] == ""){
-                return res.send('Please, fill all fields!')
+            if (req.body[key] == "") {
+                return res.send("Please, fill all fields!")
             }
         }
-        return
+
+        Teacher.update(req.body, function() {
+            return res.redirect(`/professores/${req.body.id}`)
+        })
     },   
     delete(req, res){
         return
