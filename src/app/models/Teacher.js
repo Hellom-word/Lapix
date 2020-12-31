@@ -5,13 +5,12 @@ module.exports = {
     all(callback){
 
         db.query(`SELECT * FROM teachers`, function(err, results){
-            if(err) return res.send("Database Error!")
+            if(err) throw `database Error! ${err}`
 
             callback(results.rows)
         })
 
     },
-
     create(data, callback){
         const query = `
                 INSERT INTO teachers (
@@ -37,7 +36,7 @@ module.exports = {
             ]
 
             db.query(query, values, function (err, results){
-                if(err) return res.send("Database Error!")
+                if(err) throw `database Error! ${err}`
 
                 callback(results.rows[0])
             })
@@ -75,9 +74,16 @@ module.exports = {
         ]
 
         db.query(query, values, function(err, results){
-            if(err) return res.send("Database Error!")
+            if(err) throw `database Error! ${err}`
 
             callback()
+        })
+    },
+    delete(id, callback) {
+        db.query(`DELETE FROM teachers WHERE id = $1`, [id], function(err, results){
+            if(err) throw `Database Error! ${err}`
+
+            return callback()
         })
     }
 

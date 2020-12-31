@@ -62,6 +62,8 @@ module.exports = {
         })
     },   
     delete(req, res){
-        return
+        Teacher.delete(req.body, function(){
+            return res.redirect(`/professores`)
+        })
     }   
 }

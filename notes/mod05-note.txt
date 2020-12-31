@@ -545,7 +545,7 @@ ________________________________________________________________________________
 
 
 
-PAREI AQUI ESTOU
+
 
 
 
@@ -613,11 +613,15 @@ __________________________ AJUSTES DE MEMBROS __________________________________
 
             const Member = require('..models/Member')
 
-        .Copie e cole o module.exports do arquivo instructors.js para o memebers.js
+        .Copie e cole o module.exports do arquivo instructors.js para o members.js
 
             .faça um (ctrl + f) para mudar instructor por member.
                 ->DIFERENCIE MAIUSCULO DE MINUSCULO PARA A PRIMEIRA LETRA
-            
+
+        
+        PAREI AQUI ESTOU
+
+
         .Na função SHOW, mude a linha "member.age" pela linha
 
             member.birth = date(member.birth).birthDay
