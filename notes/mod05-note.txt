@@ -618,14 +618,13 @@ __________________________ AJUSTES DE MEMBROS __________________________________
             .faça um (ctrl + f) para mudar instructor por member.
                 ->DIFERENCIE MAIUSCULO DE MINUSCULO PARA A PRIMEIRA LETRA
 
-        
-        PAREI AQUI ESTOU
 
 
         .Na função SHOW, mude a linha "member.age" pela linha
 
             member.birth = date(member.birth).birthDay
 
+PAREI AQUI ESTOU
             .Tire as linhas: "member.services e member.created_at
 
 

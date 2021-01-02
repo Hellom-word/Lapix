@@ -2,89 +2,67 @@ const { age, date } = require('../../lib/utils')
 const Student = require('..models/Student')
 
 module.exports = {
-    all(callback){
-
-        db.query(`SELECT * FROM students`, function(err, results){
-            if(err) throw `database Error! ${err}`
-
-            callback(results.rows)
-        })
-
-    },
-    create(data, callback){
-        const query = `
-                INSERT INTO students (
-                    avatar_url,
-                    name,
-                    birth_date,
-                    education_level,
-                    class_type,
-                    subjects_taught,
-                    created_at
-                ) VALUES ($1, $2, $3, $4, $5, $6, $7)
-                RETURNING id
-            `
-
-            const values = [
-                data.avatar_url,
-                data.name,
-                date(data.birth).iso,
-                data.education_level,
-                data.class_type,
-                data.subjects_taught,
-                date(Date.now()).iso
-            ]
-
-            db.query(query, values, function (err, results){
-                if(err) throw `database Error! ${err}`
-
-                callback(results.rows[0])
-            })
+    index(req, res){
+        Student.all(function(students) {
+            return res.render("estudantes/index", {students})
     
-    },
-    find(id, callback) {`
-            SELECT *
-            FROM students
-            WHERE id = $8`, [id], function(err, results){
-                if(err) throw `database Error! ${err}`
-            
-                callback(results.rows[0])
+        })
+    },   
+    create(req, res){
+        return res.render('estudantes/create')        
+    },   
+    post(req, res){
+    
+        const keys = Object.keys(req.body)
+
+        for(key of keys) {
+            if (req.body[key] == ""){
+                return res.send('Please, fill all fields!')
             }
-    },
-    update(data, callback) {
-        const query = `
-        UPDATE instructors SET
-            avatar_url=($1),
-            name=($2),
-            birth_date=($3),
-            education_level=($4),
-            class_type=($5),
-            subjects_taught=($6),
-            created_at=($7),
-        WHERE id =($8)
-        `
-        const values = [
-            data.avatar_url,
-            data.name,
-            date(data.birth_date).iso,
-            data.education_level,
-            data.class_type,
-            data.subjects_taught,
-            data.created_at
-        ]
+        }
 
-        db.query(query, values, function(err, results){
-            if(err) throw `database Error! ${err}`
-
-            callback()
+        Student.create(req.body, function(students) {
+            return res.redirect(`/estudantes/${students.id}`)
         })
-    },
-    delete(id, callback) {
-        db.query(`DELETE FROM students WHERE id = $1`, [id], function(err, results){
-            if(err) throw `Database Error! ${err}`
+    },   
+    show(req, res){
+        Student.find(req.params.id, function(student){
+            if (!student) return res.send("Instructor no found!")
 
-            return callback()
+            student.birth = date(member.birth).birthDay
+            student.subjects_taught = student.subjects_taught.split(",")
+            student.created_at = date(student.created_at).format
+            student.education_level = graduation(student.education_level)
+
+            return res.render("estudantes/show.njk", { student })
+        })    
+    },                
+    edit(req, res){
+        Student.find(req.params.id, function (student){
+            if (!student) return res.send("Instructor no found!")
+
+            student.birth = date(student.birth).iso
+
+            return res.render("estudantess/edit", { student })
         })
-    }
+    },   
+    put(req, res){
+        
+        const keys = Object.keys(req.body)
 
+        for(key of keys) {
+            if (req.body[key] == "") {
+                return res.send("Please, fill all fields!")
+            }
+        }
+
+        Student.update(req.body, function() {
+            return res.redirect(`/estudantes/${req.body.id}`)
+        })
+    },   
+    delete(req, res){
+        Student.delete(req.body, function(){
+            return res.redirect(`/estudantes`)
+        })
+    }   
 }
