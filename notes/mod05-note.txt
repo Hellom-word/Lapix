@@ -624,9 +624,17 @@ __________________________ AJUSTES DE MEMBROS __________________________________
 
             member.birth = date(member.birth).birthDay
 
-PAREI AQUI ESTOU
             .Tire as linhas: "member.services e member.created_at
 
+adicionais: 
+
+    avatar_url 
+    name
+    email
+    birth
+    education_level
+    workload
+    desired_skills
 
 
 
@@ -654,7 +662,7 @@ PAREI AQUI ESTOU
 
 
 
-
+PAREI AQUI
 
 +++++++++++++++++++++++ Model de membros +++++++++++++++++++
 

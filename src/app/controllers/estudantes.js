@@ -29,10 +29,10 @@ module.exports = {
         Student.find(req.params.id, function(student){
             if (!student) return res.send("Instructor no found!")
 
-            student.birth = date(member.birth).birthDay
-            student.subjects_taught = student.subjects_taught.split(",")
+            student.birth = date(sudent.birth).birthDay
+            student.desired_skills = desired_skills.split(",")
             student.created_at = date(student.created_at).format
-            student.education_level = graduation(student.education_level)
+            student.education_level = grade(student.education_level)
 
             return res.render("estudantes/show.njk", { student })
         })    

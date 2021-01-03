@@ -4,7 +4,7 @@
                     type="url" 
                     name="avatar_url" 
                     placeholder="http//" 
-                    value="{{estudante.avatar_url}}"
+                    value="{{student.avatar_url}}"
                 />
             </div>
             <div class="item">
@@ -12,7 +12,7 @@
                 <input 
                     type="txt" 
                     name="name" 
-                    value="{{estudante.name}}"
+                    value="{{student.name}}"
                 />
             </div>
             <div class="item">
@@ -20,7 +20,7 @@
                 <input 
                     type="email" 
                     name="email" 
-                    value="{{estudante.email}}"
+                    value="{{student.email}}"
                 />
             </div>
             <div class="item">
@@ -28,16 +28,16 @@
                 <input 
                     type="date" 
                     name="birth" 
-                    value="{{estudante.birth}}"
+                    value="{{student.birth}}"
                 />
             </div>
             <div class="item">
                 <div>Grau de Escolaridade</div>
-                <select name="escolaridade">
+                <select name="education_level">
                     
                     <option 
                         value="ano5" 
-                        {% if estudante.escolaridade == "ano5" %}
+                        {% if student.education_level == "ano5" %}
                             selected
                         {% endif %}
                     >
@@ -46,7 +46,7 @@
                     
                     <option 
                         value="ano6" 
-                        {% if estudante.escolaridade == "ano6" %}
+                        {% if student.education_level == "ano6" %}
                             selected
                         {% endif %}
                     >
@@ -55,7 +55,7 @@
                     
                     <option 
                         value="ano7" 
-                        {% if estudante.escolaridade == "ano7" %}
+                        {% if student.education_level == "ano7" %}
                             selected
                         {% endif %}
                     >
@@ -63,7 +63,7 @@
                     </option>
                     <option 
                         value="ano8" 
-                        {% if estudante.escolaridade == "ano8" %}
+                        {% if student.education_level == "ano8" %}
                             selected
                         {% endif %}
                     >
@@ -71,7 +71,7 @@
                     </option>
                     <option 
                         value="ano9" 
-                        {% if estudante.escolaridade == "ano9" %}
+                        {% if student.education_level == "ano9" %}
                             selected
                         {% endif %}
                     >
@@ -79,7 +79,7 @@
                     </option>
                     <option 
                         value="medio1" 
-                        {% if estudante.escolaridade == "medio1" %}
+                        {% if student.education_level == "medio1" %}
                             selected
                         {% endif %}
                     >
@@ -87,7 +87,7 @@
                     </option>
                     <option 
                         value="medio2" 
-                        {% if estudante.escolaridade == "medio2" %}
+                        {% if student.education_level == "medio2" %}
                             selected
                         {% endif %}
                     >
@@ -95,7 +95,7 @@
                     </option>
                     <option 
                         value="medio3" 
-                        {% if estudante.escolaridade == "medio3" %}
+                        {% if student.education_level == "medio3" %}
                             selected
                         {% endif %}
                     >
@@ -109,8 +109,8 @@
 				<div>
 					<input
 						type="number"
-						name="cargHorSem"
-						value="{{ estudante.cargHorSem }}"
+						name="workload"
+						value="{{ student.workload }}"
 					/>
 				</div>
             </div>
@@ -119,9 +119,9 @@
                 <input
                     class="placeholder"
                     type="text" 
-                    name="atuacao" 
+                    name="desired_skills" 
                     placeholder="Escreva aqui as competências que deseja estudar separadas por vírgula"
-                    value="{{estudante.atuacao}}"
+                    value="{{student.desired_skills}}"
                 />
             </div>
             <button type="submit">Salvar</button>
