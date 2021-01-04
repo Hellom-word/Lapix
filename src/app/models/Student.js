@@ -56,14 +56,6 @@ module.exports = {
     },
     update(data, callback) {
 
-            /*         avatar_url 
-    name
-    email
-    birth
-    education_level
-    workload
-    desired_skills */
-
         const query = `
         UPDATE instructors SET
             avatar_url=($1),
