@@ -1,5 +1,5 @@
 const { age, date } = require('../../lib/utils')
-const Student = require('..models/Student')
+const Student = require('../models/Student')
 
 module.exports = {
     index(req, res){
@@ -43,7 +43,7 @@ module.exports = {
 
             student.birth = date(student.birth).iso
 
-            return res.render("estudantess/edit", { student })
+            return res.render("estudantes/edit", { student })
         })
     },   
     put(req, res){

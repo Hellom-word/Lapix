@@ -44,7 +44,7 @@ module.exports = {
 
             teacher.birth = date(teacher.birth).iso
 
-            return res.render("professoress/edit", { teacher })
+            return res.render("professores/edit", { teacher })
         })
     },   
     put(req, res){
