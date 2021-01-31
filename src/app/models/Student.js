@@ -12,9 +12,6 @@ module.exports = {
 
     },
     create(data, callback){
-
-
-
         const query = `
                 INSERT INTO students (
                     avatar_url,
@@ -24,7 +21,7 @@ module.exports = {
                     education_level,
                     workload,
                     desired_skills,
-                ) VALUES ($1, $2, $3, $4, $5, $6, $7)
+                ) VALUES ($2, $3, $4, $5, $6, $7, $8)
                 RETURNING id
             `
 
@@ -35,12 +32,11 @@ module.exports = {
                 date(data.birth).iso,
                 data.education_level,
                 data.workload,
-                data.desired_skills,
+                data.desired_skills
             ]
 
             db.query(query, values, function (err, results){
                 if(err) throw `database Error! ${err}`
-
                 callback(results.rows[0])
             })
     
@@ -48,7 +44,7 @@ module.exports = {
     find(id, callback) {`
             SELECT *
             FROM students
-            WHERE id = $8`, [id], function(err, results){
+            WHERE id = $1`, [id], function(err, results){
                 if(err) throw `database Error! ${err}`
             
                 callback(results.rows[0])
@@ -57,7 +53,7 @@ module.exports = {
     update(data, callback) {
 
         const query = `
-        UPDATE instructors SET
+        UPDATE students SET
             avatar_url=($1),
             name=($2),
             email,($3)
