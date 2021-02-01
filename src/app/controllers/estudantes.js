@@ -31,7 +31,7 @@ module.exports = {
 
             student.birth = date(sudent.birth).birthDay
             student.desired_skills = desired_skills.split(",")
-            student.created_at = date(student.created_at).format
+            /* student.created_at = date(student.created_at).format */
             student.education_level = grade(student.education_level)
 
             return res.render("estudantes/show.njk", { student })

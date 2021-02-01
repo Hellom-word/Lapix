@@ -20,8 +20,8 @@ module.exports = {
                     birth,
                     education_level,
                     workload,
-                    desired_skills,
-                ) VALUES ($2, $3, $4, $5, $6, $7, $8)
+                    desired_skills
+                ) VALUES ($1, $2, $3, $4, $5, $6, $7)
                 RETURNING id
             `
 
@@ -34,10 +34,12 @@ module.exports = {
                 data.workload,
                 data.desired_skills
             ]
-
+                console.log(values)
             db.query(query, values, function (err, results){
                 if(err) throw `database Error! ${err}`
+                
                 callback(results.rows[0])
+                
             })
     
     },
