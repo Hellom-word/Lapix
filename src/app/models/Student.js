@@ -46,7 +46,7 @@ module.exports = {
     find(id, callback) {`
             SELECT *
             FROM students
-            WHERE id = $1`, [id], function(err, results){
+            WHERE id = $8`, [id], function(err, results){
                 if(err) throw `database Error! ${err}`
             
                 callback(results.rows[0])
@@ -62,7 +62,7 @@ module.exports = {
             birth=($4),
             education_level=($5),
             workload=($6),
-            desired_skills=($7),
+            desired_skills=($7)
         WHERE id =($8)
         `
         const values = [
@@ -72,7 +72,8 @@ module.exports = {
             date(data.birth).iso,
             data.education_level,
             data.workload,
-            data.desired_skills
+            data.desired_skills,
+            data.id
         ]
 
         db.query(query, values, function(err, results){

@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="card table-container">
-        <a href="/estudantes/create">Novo</a>
+        <a href="/students/create">Novo</a>
         <table width="100%">
             <thead>
                 <tr>
@@ -13,38 +13,38 @@
                 </tr>
             </thead>
             <tbody>
-                {% for estudante in estudantes %}
+                {% for student in students %}
                 <tr>
-                    <td> <span style="background-image: url({{estudante.avatar_url}})"></span>{{estudante.name}} </td>
-                    <td> {{estudante.email}} </td>
+                    <td> <span style="background-image: url({{student.avatar_url}})"></span>{{student.name}} </td>
+                    <td> {{student.email}} </td>
                     <td> 
-                        {% if estudante.escolaridade == "ano5" %}
+                        {% if student.escolaridade == "ano5" %}
                             5° Ano do Ensino fundamental
                         {% endif %}
-                        {% if estudante.escolaridade == "ano6" %}
+                        {% if student.escolaridade == "ano6" %}
                             6° Ano do Ensino fundamental
                         {% endif%}
-                        {% if estudante.escolaridade == "ano7" %}
+                        {% if student.escolaridade == "ano7" %}
                             7° Ano do Ensino fundamental
                         {% endif%}
-                        {% if estudante.escolaridade == "ano8" %}
+                        {% if student.escolaridade == "ano8" %}
                             8° Ano do Ensino fundamental
                         {% endif%}
-                        {% if estudante.escolaridade == "ano9" %}
+                        {% if student.escolaridade == "ano9" %}
                             9° Ano do Ensino fundamental
                         {% endif%}
-                        {% if estudante.escolaridade == "medio1" %}
+                        {% if student.escolaridade == "medio1" %}
                             1° Ano do Ensino Médio
                         {% endif%}
-                        {% if estudante.escolaridade == "medio2" %}
+                        {% if student.escolaridade == "medio2" %}
                             2° Ano do Ensino Médio
                         {% endif%}
-                        {% if estudante.escolaridade == "medio1" %}
+                        {% if student.escolaridade == "medio1" %}
                             3° Ano do Ensino Médio
                         {% endif%}
 
                      </td>    
-                    <td> <a href="estudantes/{{estudante.id}}">Ver</a></td>
+                    <td> <a href="estudantes/{{ student.id }}">Ver</a></td>
                 </tr>
                 {% endfor %}
             </tbody>    
