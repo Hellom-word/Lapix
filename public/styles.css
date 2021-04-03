@@ -183,7 +183,9 @@ a.button{
 .table-container thead tr th {
     text-align: left;
 }
-
+.table-container thead.student tr th {
+    text-align: center;
+}
 td, th {
     font-size: 15px;
     padding: 10px;
