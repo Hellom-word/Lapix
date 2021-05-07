@@ -1,4 +1,4 @@
-const { age, date } = require('../../lib/utils')
+const { age, date, grade } = require('../../lib/utils')
 const Student = require('../models/Student')
 
 module.exports = {
@@ -29,8 +29,8 @@ module.exports = {
         Student.find(req.params.id, function(student){
             if (!student) return res.send("Instructor no found!")
 
-            student.birth = date(sudent.birth).birthDay
-            student.desired_skills = desired_skills.split(",")
+            student.birth = date(student.birth).birthDay
+            student.desired_skills = student.desired_skills.split(",")
             /* student.created_at = date(student.created_at).format */
             student.education_level = grade(student.education_level)
 
@@ -61,7 +61,7 @@ module.exports = {
         })
     },   
     delete(req, res){
-        Student.delete(req.body, function(){
+        Student.delete(req.body.id, function(){
             return res.redirect(`/estudantes`)
         })
     }   

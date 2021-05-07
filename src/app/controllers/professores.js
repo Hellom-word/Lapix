@@ -1,4 +1,4 @@
-const { age, date } = require('../../lib/utils')
+const { age, date, graduation } = require('../../lib/utils')
 const db = require('../../config/db')
 const Teacher = require ('../models/Teacher')
 
@@ -42,7 +42,7 @@ module.exports = {
         Teacher.find(req.params.id, function (teacher){
             if (!teacher) return res.send("Instructor no found!")
 
-            teacher.birth = date(teacher.birth).iso
+            teacher.birth_date = date(teacher.birth_date).iso
 
             return res.render("professores/edit", { teacher })
         })

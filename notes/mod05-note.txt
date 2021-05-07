@@ -126,7 +126,7 @@ __________________________Trabalhando com Bando de Dados________________________
 
 
 
-++++++++++++++++++++++++ Exportando com method shorthand ES6 +++++++++++++++++++  
+++++++++++++++++++++++++ Exportando com methof shorthand ES6 +++++++++++++++++++  
 
 
     .No arquivo instructors.js
@@ -138,22 +138,22 @@ __________________________Trabalhando com Bando de Dados________________________
             module.exports = {
                 index(req, res){
 
-                },   
+                }   
                 create(req, res){
                     
-                },   
+                }   
                 post(req, res){
                     
-                },   
+                }   
                 show(req, res){
                     
-                },                
+                }                
                 edit(req, res){
                     
-                },   
+                }   
                 put(req, res){
                     
-                },   
+                }   
                 delete(req, res){
                     
                 }   
@@ -164,7 +164,7 @@ __________________________Trabalhando com Bando de Dados________________________
         .No ES6 index tire o ,{ instructors: data.instructors }
 
         .Na ES6 "post" deixe apenas o conteudo das KeysObject,
-            e o let = req.body e add um return vazio
+         o let = req.body e add um return vazio
 
         .No show, edit e delete o conteudo será só return
 
@@ -282,7 +282,7 @@ ________________________________________________________________________________
                 gender,
                 services,
                 birth,
-                created_at
+                create_at
             ) VALUES ('hellom', 'htt', 'm', 'se', '2000-01-02', '2000-02-01')
             RETURNING id
 
@@ -297,6 +297,8 @@ ________________________________________________________________________________
             const db = require('../../config/db')
 
         .Escreva no fim da função POST:
+            
+            const { Pool } = require("pg")
 
             db.query(query, values, function (err, results){
                 console.log(err)
@@ -333,7 +335,7 @@ ________________________________________________________________________________
         db.query(`SELECT * FROM instructors`, function(err, results){
             if(err) return res.send("Database Error!")
 
-            return res.redirect("instructors/index", {instructors: results.rows})
+            return res.render("instructors/index", {instructors: results.rows})
         })
 
     .Apos salvar ve se vai aparecer os instrutores na pagina index
@@ -353,7 +355,7 @@ ________________________________________________________________________________
 
         .Ela será responsavel pela parte de ligação com o banco de dados
 
-        .Dentro da pasta "models" crie o script "instructor.js"
+        .Dentro da pasta "models" crie o script "Instructor.js"
 
         .Dentro do (PRIMEIRA LETRA MAIUSCULA)"Instructor.js", escreva:
 
@@ -377,7 +379,6 @@ ________________________________________________________________________________
         const Instructor = require ('../models/Instructor')
 
     .Ainda no arquivo instructors.js, na função index, delete o conteudo e escreva:
-
         Instructor.all(function(instructors) {
             return res.render("instructors/index", {instructors})
     
@@ -447,13 +448,13 @@ ________________________________________________________________________________
 
     .No arquivo Instructor.js crie o objeto:
 
-        find(id, callback) {`
-            SELECT *
+        find(id, callback) {
+            db.query(`SELECT *
             FROM instructors
             WHERE id = $1`, [id], function(err, results){
                 if(err) return res.send("Database Error!")
                 callback(results.rows[0])
-            }
+            })
         }
     
     .No arquivo instructors.js na função SHOW, escreva:
@@ -487,18 +488,20 @@ ________________________________________________________________________________
 
 
 
+
+
 +++++++++++++++++++++++ Editando Dados do bancos +++++++++++++++++++
 
 
 
-    .No arquivo isntructors.js, na função edit escreva:
+    .No arquivo instructors.js, na função edit escreva:
 
         Instructor.find(req.params.id, function (instructor){
             if (!instructor) return res.send("Instructor no found!")
 
-            instructor.birth = date(instructor.birth).iso
+            instructor.birth = date(instrutor.birth).iso
 
-            return res.render("instructors/edit", { instructor })
+            return res.render("instructors/edit", { instrutor })
         })
 
     .No arquivo Instructor.js, crie um novo objeto em baixo do obj FIND:
@@ -510,7 +513,7 @@ ________________________________________________________________________________
                 name=($2),
                 birth=($3),
                 gender=($4),
-                services=($5),
+                services=($5)
             WHERE id =($6)
             `
             const values = [
@@ -529,7 +532,7 @@ ________________________________________________________________________________
             })
         }
 
-    .No arquivo instructors.js, na função PUT reescreva:
+    .No arquivo instructors.js, na função PUT escreva:
 
         const keys = Object.keys(req.body)
 
@@ -611,30 +614,19 @@ __________________________ AJUSTES DE MEMBROS __________________________________
 
         .Em baixo do "const {age, date}", escreva a linha:
 
-            const Member = require('..models/Member')
+            const Member = require('../models/Member')
 
         .Copie e cole o module.exports do arquivo instructors.js para o members.js
 
             .faça um (ctrl + f) para mudar instructor por member.
                 ->DIFERENCIE MAIUSCULO DE MINUSCULO PARA A PRIMEIRA LETRA
-
-
-
+            
         .Na função SHOW, mude a linha "member.age" pela linha
 
             member.birth = date(member.birth).birthDay
 
             .Tire as linhas: "member.services e member.created_at
 
-adicionais: 
-
-    avatar_url 
-    name
-    email
-    birth
-    education_level
-    workload
-    desired_skills
 
 
 
@@ -658,6 +650,7 @@ adicionais:
         Name: blood - type: text - allow null
         Name: weight - type: integer - allow null
         Name: height - type: integer - allow null
+
 
 
 
@@ -741,10 +734,431 @@ adicionais:
 +++++++++++++++++++++++ Ordenando dados do banco +++++++++++++++++++
 
 
-    .No arquivo Insctructor.js, no objeto ALL:
+    .No arquivo Instructor.js, no objeto ALL:
 
         .Mude a parte do SELECT para:
 
             SELECT *
             FROM instructors
             ORDER BY name ASC, function...(função matém igual)
+
+
+
+
+
+
+
+
+
+Estudando
+
+__________________________ Relacionando Tabelas ___________________________________________________________
+                     .. part 1/2 Desafio 5.3
+
+
+
+
+
++++++++++++++++++++++++ Entendendo os relacionamentos da aplicação +++++++++++++++++++            
+
+- A ideia é fazer o membro ter um instrutor.. para isso:
+
+    * Abra o postbird e crie uma nova coluna na tabela members:
+
+        Name: instructor_id
+        type: integer
+        Allow null
+
+    * crie novos membros
+
+        -Abra o postbird e vai até a tabela members
+        -acrescenta o id do instrutor na coluna intructor_id
+
+
+
+
+
+
+
+
++++++++++++++++++++++++ Unindo tabela com SQL join +++++++++++++++++++            
+
+- Crie mais um pouco de membros e instrutores para fazer o relacionamento
+
+- No postbird, na aba Query escreva:
+
+    SELECT *
+    FROM instructors
+
+- Selecione isso que foi escrito e de "run Query".
+    *Tem que aparecer os dados dos instrutores
+
+-Para ordenar as informações pelo id, escreva:
+
+    SELECT *
+    FROM instructors
+    ORDER BY id
+
+-ROda da Query o cod para unir as Tabelas:
+
+    SELECT *
+    FROM instructors
+    LEFT JOIN members ON (members.instructor_id = instructors.id)
+
+    - Repare ao rodar se aparece as duas tabelas relacionadas
+
+-Agora rode a Query:
+
+    SELECT *
+    FROM instructors
+    LEFT JOIN members ON (members.instructor_id = instructors.id)
+    ORDER BY id
+
+    -Note que dará erro
+    -Para corrigir isso deve-se dizer qual id se deseja, dessa forma:
+
+        SELECT *
+        FROM instructors
+        LEFT JOIN members ON (members.instructor_id = instructors.id)
+        ORDER BY instructors.id
+
+        * tambem pode ser ORDER BY members.id
+
+
+
+
+
+
+
+
+++++++++++++++++++++++ Agrupando e contando colunas no SQL +++++++++++++++++++
+
+
+
+-Para relacionar uma unica informação na tabela rode a Query:
+
+    SELECT instructors.*, members.name AS member_name
+    FROM instructors
+    LEFT JOIN members ON (members.instructor_id = instructors.id)
+    
+
+-Não queremos a tabela repetindo id... para isso:
+
+    SELECT instructors.*, count(members) AS total_students
+    FROM instructors
+    LEFT JOIN members ON (members.instructor_id = instructors.id)
+    GRUP BY instructors.id
+    
+
+
+
+
+
+
+++++++++++++++++++++++ Aplicando coluna total students +++++++++++++++++++
+
+
+-No arquivo "index.njk" na pasta "instructors", mude a parte:
+
+    <thead>
+        <tr>
+            <th>Instructor</th>
+            <th>Atendimento</th>
+            <th>Ação</th>
+        </tr>
+    </thead>
+
+Para:
+
+    <thead>
+        <tr>
+            <th>Instructor</th>
+            <th>Atendimento</th>
+            <th>Alunos</th>
+            <th>Ação</th>
+        </tr>
+    </thead>
+
+
+-Ainda no arquivo "index.njk" mude a parte:
+
+    <tr>
+        <td>
+            <span da imagem>
+        </td>
+        <td>{{instructor.services}}</td>
+    </tr>
+
+Para:
+
+    <tr>
+        <td>
+            <span da imagem>
+        </td>
+        <td>{{instructor.services}}</td>
+        <td>{{instructor.total_students}}</td>
+    </tr>
+
+
+-No arquivo "instructors.js", Na parte all(callback):
+
+    -Mude a parte 
+
+        SELECT * 
+        FROM instructors 
+        ORDER BY name ASC`
+
+    PARA:
+
+        SELECT instructors.*, count(members) AS total_students
+        FROM instructors
+        LEFT JOIN members ON (members.instructor_id = instructors.id)
+        GROUP BY instructors.id
+        ORDER BY total_students DESC`
+
+
+
+
+
+
+
+
+
+++++++++++++++++++++++ Criando seleção de instrutores +++++++++++++++++++
+
+
+-No Arquivo "fields.njk" na pasta "members"
+
+    -Em cima da linha:
+
+        <button type="submit">Salvar</button>
+
+    escreva:
+
+    <div class="item">
+        <div>Instrutor</div>
+        <div>
+            <select name="instructor">
+                {% for instructor in instructorOptions%}
+                <option value="{{instructor.id}}" {% if member.instructor_id == instructor.id %}selected{% endif %}>
+                    {{instructor.name}}
+                </option>
+                {% endfor %}
+            </select>
+    </div>
+
+- No arquivo Member.js, dentro no "module.exports" e abaixo a linha "delete(){}", escreva:
+
+    instructorSelectOptions(callback) {
+        db.query(`SELECT name, id FROM instructors`, function(err, results) {
+            if (err) throw 'Database Error!'
+
+            callback (results.rows)
+        })
+    }
+
+- No arquivo member.js reescreva a linha "create" para:
+
+    create(req, res){
+        Member.instructorSelectOptions(function(options){
+            return res.render('members/create', {instructorOptions: options})
+        })
+    }
+
+
+
+
+
+
+++++++++++++++++++++++ Exibindo instrutor de um membro +++++++++++++++++++
+
+
+
+-No arquivo "show.njk" da pasta "members", abaixo da div.Altura, escreva:
+
+    <div class= "item">
+        <div>Aluno de</div>
+        <div>{{ member.instructor_name }}</div>
+    </div>
+
+-No arquivo Member.js, na linha "find()", reescreva:
+
+    SELECT *
+        FROM members
+        WHERE id = $1`
+
+para:
+
+    SELECT members.*, instructors.name AS instructor_name
+    FROM members
+    LEFT JOIN instructors ON (members.instructor_id = instructors.id)
+    WHERE members.id = $1`
+
+
+
+
+
+
+
+
+__________________________ Filtros da Tabela ___________________________________________________________
+                     .. part 2/2 Desafio 5.3
+
+
+
+
+++++++++++++++++++++++ Estrutura do Filtro +++++++++++++++++++
+
+
+- Vamos adicionar um campo de filtrar por nome ou atendimento
+
+    - Configurando layout:
+
+        -Na pasta instructors abra o arquivo index.js
+            - exclua a linha:
+
+            <a href="/instructors/create">Nome<a/>
+
+            E No lugar dela adicione a linha:
+
+            <div class="header">
+                <a class="button" href="/instructors/create">Nome</a>
+                <form action="/instructors" method="GET">
+                    <input
+                        type="text"
+                        name="filter"
+                        placeholder="filtrar por Nome"
+                    >
+                    <button type="submit">Filtrar</button>
+                </form>
+            </div>
+
+        -ATUALIZA A PAGINA PRA TESTAR
+
+    
+
+
+
+
+PAREI AQUI parei aqui
+++++++++++++++++++++++ Estilizando a filtragem +++++++++++++++++++
+
+
+    -Aqui vamos configurar o CSS da filtragem
+
+        - Abra o arquivo styles.css
+            -No final dos conteudo escreva:
+
+
+/* FILTERS */
+.table-container .header {
+    display: grid;
+    grid-tamplete-columns: 1fr 1fr;
+    align-items: center;
+    margin-bottom: 32px;
+}        
+
+.table-container .header a {
+    margin:0;
+    width: 120px;
+}
+
+
+.table-container .header form {
+    display: grid;
+    grid-template-columns: 1fr 120px
+    align-items: center;
+    grid-gap: 8px;
+}
+
+.table-container .header form input {
+    border: 1px solid #eee;
+    padding: 4px 8px;
+    box-sizing: border-box;
+}
+
+.table-container .header form button {
+    margin:0;
+}
+
+
+
+
+
+
+
+++++++++++++++++++++++ Lógica da filtragem de dados +++++++++++++++++++
+
+
+ -No arquivo instructors.js
+
+    mude a função index() para: 
+
+    index(req, res) {
+        const { filter } = req.query
+
+        if ( filter ) {
+            Instructor.findBy(filter, function(instructors){
+                return res.render("instructors/index", { instructors })
+            })
+        } else {
+            Instructor.all(function(instructors){
+                return res.render("instructors/index", { instructors })
+            })
+        }
+
+    },
+
+-No arquivo Instructors.js, abaixo da função "find()"
+
+    *escreva:
+
+        findBy(filter, callback) {
+            db.query(`
+            SELECT instructors.*, count(members) AS total_students
+            FROM instructors
+            LEFT JOIN members ON (instructors.id = members.instructors_id)
+            WHERE instructors.name ILIKE '%${filter}%'
+            GROUP BY instructors.id
+            ORDER BY total_students DESC`, function(err, results){
+                if(err) throw `Dtabase Error! ${err}`
+
+                callback(results.rows)
+            })   
+        }
+
+
+
+
+
+++++++++++++++++++++++ Filtro Flexivel com extensão OR do SQL +++++++++++++++++++
+
+
+    -Isso vai servir para filtrar Por Nome ou Atendimentpo
+
+        - No arquivo index.njk da pasta instructors, mude placeholder para:
+
+            placeholder="Nome ou Atendimento"
+
+        - Na função findBY do arquyivo Instructors.js
+
+            *Abaixo a linha "WHERE" Escreva a linha:
+
+                OR instructors.services ILIKE '%${filter}%' 
+
+    -Para manter o filter no value:
+
+        -No if do filter, no aquivo instructors.js:
+
+            -mude o return para:
+
+                return res.render("instructors/index", { instructors, filter })
+
+        -No arquivo index.njk da pasta instructors,
+
+            *acrescente no input:
+
+                value={{filter}}
+
+
+    

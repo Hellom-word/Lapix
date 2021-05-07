@@ -30,8 +30,8 @@
             <div class="item">
                 <div>Reforço desejado</div>
                 <div>
-						{% for desired_skills in student.desired_skills %}
-						<span> {{desired_skills}} </span>
+						{% for desired_skill in student.desired_skills %}
+						<span> {{desired_skill}} </span>
 						{% endfor %}
 				</div>
             </div>
@@ -40,7 +40,7 @@
                 <div>{{student.created_at}}</div>
             </div> #}
 
-            <a href="/students/{{student.id}}/edit" class="button">Editar</a>
+            <a href="/estudantes/{{student.id}}/edit" class="button">Editar</a>
             
         </section>
     </div>

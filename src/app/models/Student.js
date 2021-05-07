@@ -43,14 +43,16 @@ module.exports = {
             })
     
     },
-    find(id, callback) {`
-            SELECT *
-            FROM students
-            WHERE id = $8`, [id], function(err, results){
-                if(err) throw `database Error! ${err}`
+    find(id, callback) {
+        db.query(`
+                SELECT *
+                FROM students
+                WHERE id = $1`, [id], function(err, results){
+                    if(err) throw `database Error! ${err}`
+                
+                    callback(results.rows[0])
+                })
             
-                callback(results.rows[0])
-            }
     },
     update(data, callback) {
 
@@ -58,7 +60,7 @@ module.exports = {
         UPDATE students SET
             avatar_url=($1),
             name=($2),
-            email,($3)
+            email=($3),
             birth=($4),
             education_level=($5),
             workload=($6),
@@ -78,15 +80,14 @@ module.exports = {
 
         db.query(query, values, function(err, results){
             if(err) throw `database Error! ${err}`
-
-            callback()
+            callback( results )
         })
     },
     delete(id, callback) {
         db.query(`DELETE FROM students WHERE id = $1`, [id], function(err, results){
             if(err) throw `Database Error! ${err}`
 
-            return callback()
+            return callback(results)
         })
     }
 

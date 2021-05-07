@@ -5,7 +5,7 @@
     <div class="card">
         <section 
             class="avatar" 
-            style="background: url({{professor.avatar_url}}) no-repeat center center / cover;">
+            style="background: url({{teacher.avatar_url}}) no-repeat center center / cover;">
         </section>
 
         <section class="details">
@@ -14,7 +14,7 @@
 
                     {% include 'professores/fields.njk'%}
 
-                    <input type="hidden" name="id" value="{{professor.id}}">
+                    <input type="hidden" name="id" value="{{teacher.id}}">
 
             </form>
             <form id="form-delete" action="/professores?_method=DELETE" method="post">

@@ -4,7 +4,7 @@
                     type="url" 
                     name="avatar_url" 
                     placeholder="http//" 
-                    value="{{professor.avatar_url}}"
+                    value="{{teacher.avatar_url}}"
                 />
             </div>
             <div class="item">
@@ -13,15 +13,15 @@
                     type="txt" 
                     name="name" 
                     placeholder="Nome do professor" 
-                    value="{{professor.name}}"
+                    value="{{teacher.name}}"
                 />
             </div>
             <div class="item">
                 <div>Data de Nascimento</div>
                 <input 
                     type="date" 
-                    name="birth" 
-                    value="{{professor.birth}}"
+                    name="birth_date" 
+                    value="{{teacher.birth_date}}"
                 />
             </div>
             <div class="item">
@@ -30,7 +30,7 @@
                     
                     <option 
                         value="EMC" 
-                        {% if professor.education_level == EMC %}
+                        {% if teacher.education_level == EMC %}
                             selected
                         {% endif %}
                     >
@@ -39,7 +39,7 @@
                     
                     <option 
                         value="ESC" 
-                        {% if professor.education_level == "ESC" %}
+                        {% if teacher.education_level == "ESC" %}
                             selected
                         {% endif %}
                     >
@@ -48,7 +48,7 @@
                     
                     <option 
                         value="MES" 
-                        {% if professor.education_level == "MES" %}
+                        {% if teacher.education_level == "MES" %}
                             selected
                         {% endif %}
                     >
@@ -56,7 +56,7 @@
                     </option>
                     <option 
                         value="Dr" 
-                        {% if professor.education_level == "Dr" %}
+                        {% if teacher.education_level == "Dr" %}
                             selected
                         {% endif %}
                     >
@@ -72,7 +72,7 @@
                         type="radio" 
                         value="Presencial" 
                         name="class_type"
-                        {% if professor.class_type == "Presencial" %}
+                        {% if teacher.class_type == "Presencial" %}
 				            checked
 			            {% endif %}
                         checked
@@ -84,7 +84,7 @@
                         type="radio" 
                         value="À distância" 
                         name="class_type" 
-                        {% if professor.class_type == "À distância" %}
+                        {% if teacher.class_type == "À distância" %}
 				            checked
 			            {% endif %}
                     />
@@ -97,7 +97,7 @@
                     type="text" 
                     name="subjects_taught" 
                     placeholder="Escreva aqui suas competências separadas por vírgula"
-                    value="{{professor.subjects_taught}}"
+                    value="{{teacher.subjects_taught}}"
                 />
             </div>
             <button type="submit">Salvar</button>
