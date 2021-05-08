@@ -2,13 +2,22 @@ const { age, date, graduation } = require('../../lib/utils')
 const db = require('../../config/db')
 const Teacher = require ('../models/Teacher')
 
-module.exports = {
-    index(req, res){
-        Teacher.all(function(teachers) {
-            return res.render("professores/index", {teachers})
-    
-        })
-    },   
+module.exports = {   
+    index(req, res) {
+        const { filter } = req.query
+
+        if ( filter ) {
+            Teacher.findBy(filter, function(teachers){
+                return res.render("professores/index", { teachers, filter })
+            })
+            
+        } else {
+            Teacher.all(function(teachers){
+                return res.render("professores/index", { teachers })
+            })
+        }
+
+    },
     create(req, res){
         return res.render('professores/create')        
     },   

@@ -20,8 +20,9 @@ module.exports = {
                     birth,
                     education_level,
                     workload,
-                    desired_skills
-                ) VALUES ($1, $2, $3, $4, $5, $6, $7)
+                    desired_skills,
+                    teacher_id
+                ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
                 RETURNING id
             `
 
@@ -32,7 +33,8 @@ module.exports = {
                 date(data.birth).iso,
                 data.education_level,
                 data.workload,
-                data.desired_skills
+                data.desired_skills,
+                data.teacher
             ]
                 console.log(values)
             db.query(query, values, function (err, results){
@@ -45,9 +47,10 @@ module.exports = {
     },
     find(id, callback) {
         db.query(`
-                SELECT *
-                FROM students
-                WHERE id = $1`, [id], function(err, results){
+        SELECT students.*, teachers.name AS teacher_name
+        FROM students
+        LEFT JOIN teachers ON (students.teacher_id = teachers.id)
+        WHERE students.id = $1`, [id], function(err, results){
                     if(err) throw `database Error! ${err}`
                 
                     callback(results.rows[0])
@@ -64,8 +67,9 @@ module.exports = {
             birth=($4),
             education_level=($5),
             workload=($6),
-            desired_skills=($7)
-        WHERE id =($8)
+            desired_skills=($7),
+            teacher_id=($8)
+        WHERE id =($9)
         `
         const values = [
             data.avatar_url,
@@ -75,6 +79,7 @@ module.exports = {
             data.education_level,
             data.workload,
             data.desired_skills,
+            data.instructor,
             data.id
         ]
 
@@ -88,6 +93,13 @@ module.exports = {
             if(err) throw `Database Error! ${err}`
 
             return callback(results)
+        })
+    },
+    teacherSelectOptions(callback) {
+        db.query(`SELECT name, id FROM teachers`, function(err, results) {
+            if (err) throw 'Database Error!'
+
+            callback (results.rows)
         })
     }
 

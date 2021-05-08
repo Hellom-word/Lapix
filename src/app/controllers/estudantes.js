@@ -7,9 +7,11 @@ module.exports = {
             return res.render("estudantes/index", {students})
     
         })
-    },   
+    },
     create(req, res){
-        return res.render('estudantes/create')        
+        Student.teacherSelectOptions(function(options){
+            return res.render('estudantes/create', {teacherOptions: options})
+        })
     },   
     post(req, res){
     
@@ -17,7 +19,7 @@ module.exports = {
 
         for(key of keys) {
             if (req.body[key] == ""){
-                return res.send('Please, fill all fields!')
+                return res.send('Please, fill all fields!'), console.log(req.body)
             }
         }
 
@@ -43,7 +45,9 @@ module.exports = {
 
             student.birth = date(student.birth).iso
 
-            return res.render("estudantes/edit", { student })
+            Student.teacherSelectOptions(function(options){
+                return res.render('estudantes/edit', {student, teacherOptions: options})
+            })
         })
     },   
     put(req, res){
