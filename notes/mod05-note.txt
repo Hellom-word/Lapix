@@ -750,7 +750,6 @@ __________________________ AJUSTES DE MEMBROS __________________________________
 
 
 
-Estudando
 
 __________________________ Relacionando Tabelas ___________________________________________________________
                      .. part 1/2 Desafio 5.3
@@ -900,7 +899,7 @@ Para:
     </tr>
 
 
--No arquivo "Instructors.js", Na parte all(callback):
+-No arquivo "instructors.js", Na parte all(callback):
 
     -Mude a parte 
 
@@ -940,15 +939,11 @@ Para:
         <div>
             <select name="instructor">
                 {% for instructor in instructorOptions%}
-                    <option value="{{instructor.id}}" 
-                            {% if member.instructor_id == instructor.id %}
-                                selected
-                            {% endif %}>
-                        {{instructor.name}}
-                    </option>
+                <option value="{{instructor.id}}" {% if member.instructor_id == instructor.id %}selected{% endif %}>
+                    {{instructor.name}}
+                </option>
                 {% endfor %}
             </select>
-        </div>
     </div>
 
 - No arquivo Member.js, dentro no "module.exports" e abaixo a linha "delete(){}", escreva:
@@ -969,12 +964,6 @@ Para:
         })
     }
 
-
-
-
-++++++++++++++++++++++ Selecionando instrutores +++++++++++++++++++
-
-EM caso de duvida assista essa aula novamente
 
 
 
@@ -1050,7 +1039,6 @@ __________________________ Filtros da Tabela ___________________________________
 
 
 
-PAREI AQUI parei aqui
 ++++++++++++++++++++++ Estilizando a filtragem +++++++++++++++++++
 
 
@@ -1105,7 +1093,8 @@ PAREI AQUI parei aqui
     mude a função index() para: 
 
     index(req, res) {
-        const { filter } = req.query
+        const { filter 
+        } = req.query
 
         if ( filter ) {
             Instructor.findBy(filter, function(instructors){
@@ -1126,6 +1115,8 @@ PAREI AQUI parei aqui
         findBy(filter, callback) {
             db.query(`
             SELECT instructors.*, count(members) AS total_students
+        
+        
             FROM instructors
             LEFT JOIN members ON (instructors.id = members.instructors_id)
             WHERE instructors.name ILIKE '%${filter}%'
@@ -1172,3 +1163,602 @@ PAREI AQUI parei aqui
 
 
     
+
+
+
+
+
+
+_____________________________________PAGINAÇÃO________________________________________________
+                                Desafio 5.4
+
+
+
+
+++++++++++++++++++++++ Entendendo a Lógica da paginação +++++++++++++++++++
+
+-Ele explicou, tinha logica.. mas não tinha codigo (assistir video)
+
+
+
+
+
+
+++++++++++++++++++++++ Estruturando os parametros para paginação +++++++++++++++++++
+
+
+-No arquivo instructors.js, na função index:
+
+    -Comente o conteudo todo da função
+    -Agora escreva isso por cima do cod. comentado:
+
+        let {filter, page, limit } = req.query
+
+        page = page || 1
+        limit = limit || 2
+        let offset = limit * (page - 1)
+
+        const params = {
+            filter,
+            page,
+            limit,
+            offset,
+            callback(instructors){
+                return res.render("instructors/index", { instructors, filter })
+            }
+        }
+
+        Instructor.paginate(params)
+
+-No arquivo Instructor.js, em baixo da função delete(), escreva:
+
+    paginate(params) {}
+
+
+
+
+
+
+
+
+
+++++++++++++++++++++++ Queries dinâmicas +++++++++++++++++++
+
+
+
+
+-No arquivo Instructor.js, mude a função paginate() para:
+
+    paginate(params) {
+        const {filter, limit, offset, callback } = params
+
+        let query = `
+        SELECT instructors.*, count(members) as total_students
+        FROM instructors
+        LEFT JOIN members ON (instructors.id = members.instructor_id)`
+
+        if ( filter ) {
+            query = `${query}
+            WHERE instructors.name ILIKE '%${filter}%'
+            OR instructors.services ILIKE '%${filter}%'
+            `
+        }
+
+        query = `${query}
+        GROUP BY instructors.id limit $1 OFFSET $2
+        `
+
+        db.query(query, [limit, offset], function(err, results){
+            if (err) throw `Database Error! ${err}`
+
+            callback(results.rows)
+        })
+    }
+
+
+
+
+
+
+++++++++++++++++++++++ Algoritmo de paginação no front I +++++++++++++++++++
+
+
+
+-No fim do conteudo do arquivo "script.js" escreva:
+
+    // paginação
+    // totalPages = 20
+    // SelectedPage = 15
+    // [1, ..., 13, 14, 15, 16, 17, ..., 20]
+
+    let totalPages = 20,
+        SelectedPage = 15,
+        pages = []
+
+    for(let currentPage = 1; currentPage <= totalPages; currentPage++){
+
+        if(currentPage == 1 || currentPage == totalPages) {
+            pages.push(currentPage)
+        }
+    }
+
+    console.log(params)
+
+
+
+
+++++++++++++++++++++++ Algoritmo de paginação no front II +++++++++++++++++++
+
+
+
+-No fim do conteudo do arquivo "script.js" Atualize:
+
+    // paginação
+    // totalPages = 20
+    // SelectedPage = 15
+    // [1, ..., 13, 14, 15, 16, 17, ..., 20]
+
+    let totalPages = 20,
+        SelectedPage = 15,
+        pages = []
+
+    for(let currentPage = 1; currentPage <= totalPages; currentPage++){
+
+        const firstAndLastPage = currentPage == 1 || currentPage == total
+        const pagesAfterSelectedPage = currentPage <= selectedPage + 2
+        const pagesBeforeSelectedPage = currentPage >= selecetdPage - 2
+
+
+        if(firstAndLastPage == 1 || pagesBeforeSelectedPage && pagesAfterSelectedPage) {
+            pages.push(currentPage)
+        }
+    }
+
+    console.log(params)
+
+
+
+
+
+++++++++++++++++++++++ Algoritmo de paginação no front III +++++++++++++++++++
+
+
+
+-No fim do conteudo do arquivo "script.js" Atualize:
+
+    // paginação
+    // totalPages = 20
+    // SelectedPage = 15
+    // [1, ..., 13, 14, 15, 16, 17, ..., 20]
+
+    let totalPages = 20,
+        SelectedPage = 15,
+        pages = [],
+        oldPage
+
+    for(let currentPage = 1; currentPage <= totalPages; currentPage++){
+
+        const firstAndLastPage = currentPage == 1 || currentPage == totalPages
+        const pagesAfterSelectedPage = currentPage <= selectedPage + 2
+        const pagesBeforeSelectedPage = currentPage >= selecetdPage - 2
+
+
+        if(firstAndLastPage == 1 || pagesBeforeSelectedPage && pagesAfterSelectedPage) {
+            if (oldPage && currentPage - oldPage > 2){
+                pages.push("...")
+            }
+
+            if (oldPage && currentPage - oldPage == 2) {
+                pages.push(oldPage + 1)
+            }
+
+            pages.push(currentPage)
+            
+            oldPage = currentPage
+        }
+    }
+
+    console.log(params)
+
+
+
+
+
+++++++++++++++++++++++ Estruturando dados para paginação no front +++++++++++++++++++
+
+
+- No arquivo "scripts.js" vamos colocar as ultimas linhas em um função:
+
+
+
+    function paginate (selectedPage, totalPages) {
+        let pages = [],
+        oldPage
+
+        for(let currentPage = 1; currentPage <= totalPages; currentPage++){
+
+            const firstAndLastPage = currentPage == 1 || currentPage == total
+            const pagesAfterSelectedPage = currentPage <= selectedPage + 2
+            const pagesBeforeSelectedPage = currentPage >= selectedPage - 2
+
+
+            if(firstAndLastPage == 1 || pagesBeforeSelectedPage && pagesAfterSelectedPage) {
+                if (oldPage && currentPage - oldPage > 2){
+                    pages.push("...")
+                }
+
+                if (oldPage && currentPage - oldPage == 2) {
+                    pages.push(oldPage + 1)
+                }
+
+                pages.push(currentPage)
+                
+                oldPage = currentPage
+            }
+        }
+        return pages    
+    }
+
+
+
+
+-No arquivo "instructor.js" delete a parte comentada e troque esse conteudo:
+
+
+    let {filter, page, limit } = req.query
+
+        page = page || 1
+        limit = limit || 2
+        let offset = limit * (page - 1)
+
+        const params = {
+            filter,
+            page,
+            limit,
+            offset,
+            callback(instructors){
+
+                const pagination = {
+                    filter,
+                    total,
+                    page
+                }
+                return res.render("instructors/index", { instructors })
+            }
+        }
+
+        Instructor.paginate(params)
+
+
+
+
+
+
+
+
+
+++++++++++++++++++++++ pegando o total de registros com subqueries +++++++++++++++++++
+
+
+
+
+
+
+
+-No Arquivo Instructors.js Modifique o código da função "paginate(params){}" PARA:
+
+
+paginate(params) {
+        const {filter, limit, offset, callback } = params
+
+        let query = "",
+            filterQuery = "",
+            totalQuery = `(
+                SELECT count(*) FROM instructors
+            ) AS total`
+
+
+        
+
+        if ( filter ) {
+            filterQuery = `
+            WHERE instructors.name ILIKE '%${filter}%'
+            OR instructors.services ILIKE '%${filter}%'
+            `
+
+            totalQuery = `(
+                SELECT count(*) FROM instructors
+                ${filterQuery}
+            ) AS total`
+        }
+        
+        query = `
+        SELECT instructors.*, ${totalQuery}, count(members) AS total_students
+        FROM instructors
+        LEFT JOIN members ON (instructors.id = members.instructor_id)
+        ${filterQuery}
+        GROUP BY instructors.id limit $1 OFFSET $2
+        `
+
+        db.query(query, [limit, offset], function(err, results){
+            if (err) throw `Database Error! ${err}`
+
+            callback(results.rows)
+        })
+}
+
+
+
+
+
+++++++++++++++++++++++ Finanlizando estrutura de dados da Paginação +++++++++++++++++++
+
+
+
+-Na pagina instructors.js na Função paginate()
+
+    - Tire o filter do conteudo.
+    - Mude a variavel "total" em "const pagination" PARA:
+
+        total: Math.ceil(instructors[0].total / limit),
+
+    -Mude o return PARA:
+
+        return res.render("instructors/index", { instructors, pagination, filter})
+
+
+
+
+
+
+++++++++++++++++++++++ Pegando dados do HTML com dataset +++++++++++++++++++
+
+
+
+-Na pasta instructors, no arquivo index.js
+
+    -Abaixo do tag </table> crie a seguinte div
+
+    <div class="pagination"
+        data-page={{pagination.page}}
+        data-total={{pagination.total}} 
+    ></div>
+
+
+-No arquivo "scripts.js"  em baixo da funtion paginate(), escreva:
+
+    const pagination = document.querySelector(".paginate")
+    const page = +pagination.dataset.page;
+    const total = +pagination.dataset.total;
+
+
+
+
+
+++++++++++++++++++++++ Montando paginação no front +++++++++++++++++++
+
+
+-No arquivo script.js abaixo da variavel "const total = +pagination", escreva
+
+    const pages = paginate(page, total)
+
+    let elements = ""
+
+    for (let page of pages) {
+        if (String(page).includes("...")) {
+            elements += `<span>${page}</span>`
+        } else {
+            elements += `<a href= "?page=${page}">${page}</a>`
+        }    
+    }
+
+    paginate.innerHTML = elements
+
+
+
+
+
+
+++++++++++++++++++++++ Estilizando a paginação +++++++++++++++++++
+
+
+
+-Abra o arquivo "styles.css"
+
+-No fim do conteudo, escreva:
+
+    //Paginação
+
+    .table-container {
+        display: grid;
+        grid-template: 64px 1vr 16px / 1fr;
+    }
+
+    .table-container .header {
+        margin: 0;
+        align-self: start;
+    }
+
+    .table-container .pagination {
+        margin: 0;
+        align-self: end;
+        justfy-self: center;
+    }
+
+    .pagination a,
+    .pagination span {
+        color: var(--primary-color);
+        text-decoration: none;
+        margin-right: 16px;
+    }
+
+    .pagination a:houver {
+        filter: brightness(0.3);
+        border-bottom: 1px solid var(--primary-color)
+    }
+
+
+
+
+
+
+++++++++++++++++++++++ Mantendo estado do filtro +++++++++++++++++++
+
+
+
+-No arquivo "scripts.js" no "for" no fim dos conteudos, Mude para:
+
+
+    for (let page of pages) {
+        if (string(page).includes("...")) {
+            elements += `<span>${page}</span>`
+        } else {
+            if( filter ) {
+                elements += `<a href= "?page=${page}&filter=${filter}">${page}</a>`
+            } else {
+                elements += `<a href= "?page=${page}">${page}</a>`
+            }
+        }    
+    }
+
+
+-Na pasta instructors, no arquivo index.js
+
+    -Abaixo do tag </table> modifique a seguinte div, PARA:
+
+    <div class="pagination"
+        data-page={{pagination.page}}
+        data-total={{pagination.total}} 
+        data-filter={{filter}}
+    ></div>
+
+
+-No arquivo "scripts.js" acrescente a seguinte linha
+
+    -entre o "const pagination" e "const page":
+
+    const filter = pagination.dataset.filter
+
+
+PAREI ESTOU AQUI
+++++++++++++++++++++++ Aplicando paginação para membros +++++++++++++++++++
+
+
+-Copie a div pagination do index.js da pasta instructors
+    -Cole no index.js da pasta members
+
+
+-Copie a div header do index.js da pasta instructors
+    -E coloque no lugar da header no index.js da pasta members
+
+    -Troque instructors por members
+    -mude o placeholder para: Nome ou email
+
+-CRIE a função paginate no fim do arquivo Member.js
+
+    paginate(params) {
+        const {filter, limit, offset, callback } = params
+
+        let query = "",
+            filterQuery = "",
+            totalQuery = `(
+                SELECT count(*) FROM members
+            ) AS total`
+
+
+        
+
+        if ( filter ) {
+            filterQuery = `
+            WHERE members.name ILIKE '%${filter}%'
+            OR members.email ILIKE '%${filter}%'
+            `
+
+            totalQuery = `(
+                SELECT count(*) FROM members
+                ${filterQuery}
+            ) AS total`
+        }
+        
+        query = `
+        SELECT members.*, ${totalQuery}
+        FROM members
+        ${filterQuery}
+        LIMIT $1 OFFSET $2
+        `
+
+        db.query(query, [limit, offset], function(err, results){
+            if (err) throw `Database Error! ${err}`
+
+            callback(results.rows)
+        })
+}
+
+
+
+
+-No arquivo members.js mude o conteudo da função index, PARA:
+
+
+        let {filter, page, limit } = req.query
+
+        page = page || 1
+        limit = limit || 2
+        let offset = limit * (page - 1)
+
+        const params = {
+            filter,
+            page,
+            limit,
+            offset,
+            callback(members){
+
+                const pagination = {
+                    total: Math.ceil(members[0].total / limit),
+                    page
+                }
+                return res.render("members/index", { members, paginate, filter })
+            }
+        }
+
+        Member.paginate(params)
+
+
+
+
+
+
+++++++++++++++++++++++ Ajustes finais +++++++++++++++++++
+
+
+-No arquivo scritps.js reescreva o codigo depois da função paginate, PARA:
+
+function createPagination(pagination) {
+    
+    const filter = pagination.dataset.filter
+    const page = +pagination.dataset.page
+    const total = +pagination.dataset.total
+    const pages = paginate(page, total)
+
+    let elements = ""
+
+    for (let page of pages) {
+        if (String(page).includes("...")) {
+            elements += `<span>${page}</span>`
+        } else {
+            if( filter ) {
+                elements += `<a href= "?page=${page}&filter">${page}</a>`
+            } else {
+                elements += `<a href= "?page=${page}">${page}</a>`
+            }
+        }    
+    }
+
+    pagination.innerHTML = elements
+}
+
+const pagination = document.querySelector(".pagination")
+
+if (pagination) {
+    createPagination(pagination)
+}
