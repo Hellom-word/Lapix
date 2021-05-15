@@ -18,7 +18,6 @@ module.exports = {
             callback(teachers){
 
                 const pagination = {
-                    filter,
                     total: Math.ceil(teachers[0].total / limit),
                     page
                 }

@@ -120,7 +120,7 @@ module.exports = {
         if ( filter ) {
             filterQuery = `
             WHERE teachers.name ILIKE '%${filter}%'
-            OR teachers.services ILIKE '%${filter}%'
+            OR teachers.subjects_taught ILIKE '%${filter}%'
             `
 
             totalQuery = `(
@@ -134,13 +134,13 @@ module.exports = {
         FROM teachers
         LEFT JOIN students ON (teachers.id = students.teacher_id)
         ${filterQuery}
-        GROUP BY teachers.id limit $1 OFFSET $2
+        GROUP BY teachers.id LIMIT $1 OFFSET $2
         `
 
         db.query(query, [limit, offset], function(err, results){
             if (err) throw `Database Error! ${err}`
 
-            callback(results.rows)
+            callback(results.rows), console.log(results.rows)
         })
     }
 
