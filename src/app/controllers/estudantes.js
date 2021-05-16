@@ -38,7 +38,7 @@ module.exports = {
 
         for(key of keys) {
             if (req.body[key] == ""){
-                return res.send('Please, fill all fields!'), console.log(req.body)
+                return res.send('Please, fill all fields!')
             }
         }
 

@@ -4,6 +4,7 @@ const Teacher = require ('../models/Teacher')
 
 module.exports = {   
     index(req, res) {
+        
         let {filter, page, limit } = req.query
 
         page = page || 1
@@ -26,6 +27,8 @@ module.exports = {
         }
 
         Teacher.paginate(params)
+        
+        
 
 
     },

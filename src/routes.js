@@ -3,7 +3,7 @@ const routes = express.Router()
 const professores = require('./app/controllers/professores')
 const estudantes = require('./app/controllers/estudantes')
 
-routes.get('/', professores.index)
+routes.get('/',('/professores', professores.index))
 routes.get('/professores', professores.index)
 routes.get('/professores/create', professores.create)
 routes.get('/professores/:id', professores.show)

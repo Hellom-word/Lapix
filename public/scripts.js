@@ -54,7 +54,7 @@ for (item of menuItems) {
                 elements += `<span>${page}</span>`
             } else {
                 if( filter ) {
-                    elements += `<a href= "?page=${page}&filter">${page}</a>`
+                    elements += `<a href= "?page=${page}&filter=${filter}">${page}</a>`
                 } else {
                     elements += `<a href= "?page=${page}">${page}</a>`
                 }
